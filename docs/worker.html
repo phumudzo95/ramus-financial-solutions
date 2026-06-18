@@ -308,25 +308,26 @@
   <div class="detail-panel" id="detail-panel">
 
     <!-- Application header card -->
-    <div class="app-hdr-card">
+    <div class="app-hdr-card" id="app-hdr-card">
       <div class="app-hdr-top">
         <div>
           <div class="app-ref-row">
-            <span class="app-ref">RCL-X7K29MQA</span>
-            <span class="badge badge-amber">Manual Review</span>
-            <span class="badge badge-escalated">ESCALATED</span>
+            <span class="app-ref" id="app-detail-ref">RCL-X7K29MQA</span>
+            <span class="badge badge-amber" id="app-detail-status">Manual Review</span>
+            <span class="badge badge-escalated" id="app-detail-escalated">ESCALATED</span>
           </div>
-          <div class="app-name">T. Mokoena</div>
-          <div class="app-meta">
+          <div class="app-name" id="app-detail-name">T. Mokoena</div>
+          <div class="app-meta" id="app-detail-meta">
             Requesting <strong>R 4,500</strong> over <strong>6 monthly instalments</strong> &nbsp;·&nbsp; Debt-to-Income: <strong style="color:#D97706;">38%</strong> &nbsp;·&nbsp; Submitted 11 Jun 2026
           </div>
         </div>
         <div class="action-btns">
-          <button class="btn-approve">✓ Approve</button>
-          <button class="btn-decline">✕ Decline</button>
-          <button class="btn-escalate">↑ Escalate</button>
+          <button class="btn-approve" onclick="decideApplication('approve')">✓ Approve</button>
+          <button class="btn-decline" onclick="decideApplication('decline')">✕ Decline</button>
+          <button class="btn-escalate" onclick="decideApplication('escalate')">↑ Escalate</button>
         </div>
       </div>
+      <div id="decision-confirm" style="display:none;margin-top:16px;padding:14px 18px;border-radius:10px;font-size:13px;"></div>
     </div>
 
     <!-- Sub-tabs -->
@@ -495,10 +496,75 @@
 </div>
 
 <script>
+  function decideApplication(action) {
+    const statusEl = document.getElementById('app-detail-status');
+    const escalatedEl = document.getElementById('app-detail-escalated');
+    const confirmEl = document.getElementById('decision-confirm');
+    const ref = document.getElementById('app-detail-ref').textContent;
+
+    let statusText, statusClass, message, messageBg, messageColor;
+
+    if (action === 'approve') {
+      statusText = 'Approved'; statusClass = 'badge badge-green';
+      message = '✓ ' + ref + ' has been approved. The applicant will be notified by email and SMS.';
+      messageBg = '#F0FDF4'; messageColor = '#15803D';
+    } else if (action === 'decline') {
+      statusText = 'Declined'; statusClass = 'badge badge-red';
+      message = '✕ ' + ref + ' has been declined. A written reason will be sent to the applicant as required by the NCA.';
+      messageBg = '#FEF2F2'; messageColor = '#B91C1C';
+    } else {
+      statusText = 'Manual Review'; statusClass = 'badge badge-amber';
+      message = '↑ ' + ref + ' has been escalated to a senior analyst for further review.';
+      messageBg = '#FFFBEB'; messageColor = '#92400E';
+    }
+
+    statusEl.className = statusClass;
+    statusEl.textContent = statusText;
+    if (action === 'escalate') {
+      escalatedEl.style.display = 'inline-flex';
+    }
+
+    confirmEl.style.background = messageBg;
+    confirmEl.style.color = messageColor;
+    confirmEl.style.border = '1px solid ' + messageColor;
+    confirmEl.textContent = message;
+    confirmEl.style.display = 'block';
+
+    // Reflect the same status on the matching queue item, if present
+    document.querySelectorAll('.queue-item').forEach(item => {
+      const refSpan = item.querySelector('.qi-ref');
+      if (refSpan && refSpan.textContent === ref) {
+        const badge = item.querySelector('.qi-meta .badge');
+        if (badge) {
+          badge.className = statusClass;
+          badge.textContent = statusText;
+        }
+      }
+    });
+  }
+
+  const APP_DATA = {
+    a1: { ref: 'RCL-X7K29MQA', name: 'T. Mokoena', amount: 'R 4,500', term: '6 monthly instalments', dti: '38%', submitted: '11 Jun 2026', status: 'Manual Review', statusClass: 'badge badge-amber', escalated: true },
+    a2: { ref: 'RCL-B4R72NWP', name: 'N. van der Berg', amount: 'R 2,500', term: 'Pay in full after 30 days', dti: '22%', submitted: '10 Jun 2026', status: 'Under Review', statusClass: 'badge badge-blue', escalated: false },
+    a3: { ref: 'RCL-K5T11QXZ', name: 'M. Khumalo', amount: 'R 3,500', term: '3 monthly instalments', dti: '41%', submitted: '06 Jun 2026', status: 'Under Review', statusClass: 'badge badge-blue', escalated: false },
+  };
+
   function selectApp(id, el) {
     document.querySelectorAll('.queue-item').forEach(i => i.classList.remove('active'));
     el.classList.add('active');
-    // In a real system this would load the application data
+
+    const data = APP_DATA[id];
+    if (data) {
+      document.getElementById('app-detail-ref').textContent = data.ref;
+      document.getElementById('app-detail-name').textContent = data.name;
+      const statusEl = document.getElementById('app-detail-status');
+      statusEl.className = data.statusClass;
+      statusEl.textContent = data.status;
+      document.getElementById('app-detail-escalated').style.display = data.escalated ? 'inline-flex' : 'none';
+      document.getElementById('app-detail-meta').innerHTML =
+        'Requesting <strong>' + data.amount + '</strong> over <strong>' + data.term + '</strong> &nbsp;·&nbsp; Debt-to-Income: <strong style="color:#D97706;">' + data.dti + '</strong> &nbsp;·&nbsp; Submitted ' + data.submitted;
+      document.getElementById('decision-confirm').style.display = 'none';
+    }
     closeQueue();
   }
 

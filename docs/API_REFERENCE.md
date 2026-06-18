@@ -8,7 +8,7 @@
 ## Base URL
 
 ```
-https://api.ramuscash.co.za/api/v1
+https://api.ramusfinancialsolutions.co.za/api/v1
 ```
 
 All endpoints require a valid JWT RS256 bearer token unless otherwise stated.
@@ -23,7 +23,7 @@ Authenticate a user and receive access + refresh tokens.
 **Request:**
 ```json
 {
-  "email": "user@ramuscash.co.za",
+  "email": "user@ramusfinancialsolutions.co.za",
   "password": "secure_password"
 }
 ```
