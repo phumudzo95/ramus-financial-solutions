@@ -1,258 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Worker Dashboard — Ramus Financial Solutions</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --navy:      #003FBA;
-      --dark-navy: #061A3A;
-      --gold:      #C99A2E;
-      --deep-gold: #A87518;
-      --white:     #FFFFFF;
-      --off-white: #F4F6FB;
-      --border:    #E2E8F0;
-      --text-main: #0D1B2A;
-      --text-muted:#5A6A80;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--off-white); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Worker Dashboard — Ramus Financial Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+:root{--navy:#071B4A;--navy2:#0A2563;--gold:#C9A028;--gold2:#A87820;--white:#FFFFFF;--surface:#F7F8FB;--border:#E2E8F0;--muted:#64748B;--text:#0F172A;--green:#15803D;--red:#B91C1C;--amber:#B45309}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,'Segoe UI',sans-serif;background:var(--surface);color:var(--text);height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;overflow:hidden}
+a{text-decoration:none;color:inherit}
 
-    /* HEADER */
-    header {
-      background: var(--dark-navy);
-      border-bottom: 3px solid var(--gold);
-      height: 68px;
-      display: flex;
-      align-items: center;
-      padding: 0 28px;
-      gap: 14px;
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-      flex-shrink: 0;
-    }
-    .hdr-titles .main { font-size: 14px; font-weight: 700; color: var(--white); }
-    .hdr-titles .sub { font-size: 10px; color: rgba(255,255,255,0.45); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
-    .hdr-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-    .back-btn { display: flex; align-items: center; gap: 6px; padding: 7px 14px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500; text-decoration: none; }
-    .back-btn:hover { background: rgba(255,255,255,0.15); }
-    .worker-tag { font-size: 12px; color: rgba(255,255,255,0.65); }
-    .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--gold); color: var(--dark-navy); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
+/* HEADER */
+header{height:60px;background:var(--navy);border-bottom:2px solid var(--gold);display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0;z-index:100}
+.hdr-toggle{width:34px;height:34px;border-radius:7px;border:1px solid rgba(255,255,255,0.15);background:transparent;cursor:pointer;display:none;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.hdr-toggle span{display:block;width:16px;height:2px;background:var(--white);border-radius:2px}
+.hdr-brand{font-size:14px;font-weight:800;letter-spacing:0.04em;color:var(--white)}
+.hdr-brand span{color:var(--gold)}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.worker-name{font-size:12px;font-weight:600;color:rgba(255,255,255,0.55)}
+.back-link{font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);transition:color 0.15s}
+.back-link:hover{color:var(--white)}
+.hdr-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
 
-    /* LAYOUT */
-    .layout { display: flex; flex: 1; height: calc(100vh - 68px); }
+/* LAYOUT */
+.layout{display:flex;flex:1;overflow:hidden}
+.queue-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:150}
+.queue-backdrop.open{display:block}
 
-    /* QUEUE SIDEBAR */
-    .queue-panel {
-      width: 300px;
-      background: var(--white);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-    .queue-hdr { padding: 16px 20px; border-bottom: 1px solid var(--border); background: var(--white); }
-    .queue-hdr h3 { font-size: 14px; font-weight: 700; color: var(--dark-navy); }
-    .queue-hdr p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .queue-list { overflow-y: auto; flex: 1; }
-    .queue-item {
-      padding: 14px 20px;
-      border-bottom: 1px solid #F1F5F9;
-      cursor: pointer;
-      border-left: 3px solid transparent;
-      transition: background 0.1s;
-    }
-    .queue-item:hover { background: #F8FAFF; }
-    .queue-item.active { background: #EBF1FF; border-left-color: var(--navy); }
-    .qi-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-    .qi-ref { font-family: 'Courier New', monospace; font-size: 11.5px; font-weight: 700; color: var(--navy); }
-    .qi-name { font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
-    .qi-meta { display: flex; justify-content: space-between; align-items: center; }
-    .qi-amount { font-size: 12px; color: var(--text-muted); }
-    .badge { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 20px; font-size: 10.5px; font-weight: 600; white-space: nowrap; }
-    .badge-amber { background: #FEF3C7; color: #92400E; }
-    .badge-blue  { background: #EBF1FF; color: var(--navy); }
-    .badge-green { background: #F0FDF4; color: #15803D; }
-    .badge-red   { background: #FEF2F2; color: #B91C1C; }
-    .badge-gray  { background: #F3F4F6; color: #4B5563; }
-    .badge-escalated { background: #FEE2E2; color: #991B1B; font-size: 9px; letter-spacing: 0.5px; }
-    .qi-age { font-size: 11px; margin-top: 5px; color: var(--text-muted); }
-    .qi-age.urgent { color: #DC2626; }
+/* QUEUE PANEL */
+.queue-panel{width:280px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;z-index:200}
+.queue-hdr{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.queue-title{font-size:13px;font-weight:700;color:var(--navy)}
+.queue-count{font-size:11px;font-weight:700;background:var(--navy);color:var(--white);padding:2px 8px;border-radius:10px}
+.queue-search{padding:10px 12px;border-bottom:1px solid var(--border)}
+.queue-search input{width:100%;height:34px;border:1px solid var(--border);border-radius:6px;padding:0 10px;font-family:inherit;font-size:13px;background:var(--surface)}
+.queue-search input:focus{outline:none;border-color:var(--navy)}
+.queue-list{overflow-y:auto;flex:1}
+.queue-item{padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.queue-item:hover{background:var(--surface)}
+.queue-item.active{background:#EFF6FF;border-left:3px solid var(--navy)}
+.qi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.qi-ref{font-size:11.5px;font-weight:700;font-family:monospace;color:var(--navy)}
+.qi-amount{font-size:12.5px;font-weight:700;color:var(--text)}
+.qi-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+.qi-meta{display:flex;align-items:center;gap:6px}
+.qi-time{font-size:11px;color:var(--muted)}
 
-    /* SECTION TABS */
-    .section-tabs { display: flex; gap: 4px; padding: 0 0 16px; }
-    .sec-tab { padding: 9px 20px; border: none; background: var(--off-white); border-radius: 8px; font-size: 12.5px; font-weight: 500; color: var(--text-muted); cursor: pointer; font-family: inherit; transition: all 0.15s; }
-    .sec-tab.active { background: var(--dark-navy); color: var(--white); font-weight: 600; }
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:1.5px 7px;border-radius:20px;font-size:10.5px;font-weight:700;white-space:nowrap}
+.badge-green{background:#DCFCE7;color:var(--green)}
+.badge-red{background:#FEE2E2;color:var(--red)}
+.badge-amber{background:#FEF3C7;color:var(--amber)}
+.badge-blue{background:#DBEAFE;color:#1D4ED8}
+.badge-gray{background:#F1F5F9;color:var(--muted)}
+.badge-escalated{background:#FEE2E2;color:var(--red)}
 
-    /* DETAIL PANEL */
-    .detail-panel { flex: 1; overflow-y: auto; padding: 28px 32px; }
+/* DETAIL PANEL */
+.detail{flex:1;overflow-y:auto;display:flex;flex-direction:column}
 
-    /* TABS */
-    .sub-tabs { display: flex; gap: 4px; background: #EEF2F8; border-radius: 10px; padding: 4px; width: fit-content; margin-bottom: 22px; }
-    .sub-tab { padding: 8px 20px; background: transparent; border: none; border-radius: 7px; cursor: pointer; font-size: 12.5px; font-weight: 500; color: var(--text-muted); font-family: inherit; transition: all 0.15s; }
-    .sub-tab.active { background: var(--white); color: var(--text-main); font-weight: 600; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+/* APP HEADER CARD */
+.app-hdr-card{background:var(--white);border-bottom:1px solid var(--border);padding:20px 24px;flex-shrink:0}
+.app-ref-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.app-ref{font-size:12px;font-weight:700;font-family:monospace;color:var(--muted)}
+.app-name{font-size:19px;font-weight:800;color:var(--navy);margin-bottom:3px}
+.app-meta{font-size:13px;color:var(--muted)}
+.action-btns{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn-approve{height:36px;padding:0 18px;background:var(--green);color:var(--white);border:none;border-radius:7px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:opacity 0.15s}
+.btn-approve:hover{opacity:0.9}
+.btn-decline{height:36px;padding:0 18px;background:var(--red);color:var(--white);border:none;border-radius:7px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:opacity 0.15s}
+.btn-decline:hover{opacity:0.9}
+.btn-escalate{height:36px;padding:0 18px;background:var(--white);color:var(--amber);border:1.5px solid var(--amber);border-radius:7px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:background 0.15s}
+.btn-escalate:hover{background:#FFFBEB}
+.decision-confirm{display:none;margin-top:14px;padding:11px 14px;border-radius:8px;font-size:13px;font-weight:500}
 
-    /* APP HEADER CARD */
-    .app-hdr-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 22px 26px;
-      margin-bottom: 20px;
-    }
-    .app-hdr-top { display: flex; justify-content: space-between; align-items: flex-start; }
-    .app-ref-row { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
-    .app-ref { font-family: 'Courier New', monospace; font-size: 14px; font-weight: 700; color: var(--navy); }
-    .app-name { font-size: 22px; font-weight: 700; color: var(--dark-navy); margin-bottom: 4px; }
-    .app-meta { font-size: 13px; color: var(--text-muted); }
-    .app-meta strong { color: var(--text-main); }
-    .action-btns { display: flex; gap: 8px; flex-shrink: 0; }
-    .btn-approve { padding: 10px 22px; background: #16A34A; color: var(--white); border: none; border-radius: 9px; cursor: pointer; font-weight: 700; font-size: 13px; font-family: inherit; }
-    .btn-decline { padding: 10px 22px; background: #DC2626; color: var(--white); border: none; border-radius: 9px; cursor: pointer; font-weight: 700; font-size: 13px; font-family: inherit; }
-    .btn-escalate { padding: 10px 22px; background: #D97706; color: var(--white); border: none; border-radius: 9px; cursor: pointer; font-weight: 700; font-size: 13px; font-family: inherit; }
+/* DETAIL TABS */
+.detail-tabs{background:var(--white);border-bottom:1px solid var(--border);display:flex;padding:0 24px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.detail-tabs::-webkit-scrollbar{display:none}
+.detail-tab{padding:0 16px;height:44px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color 0.15s,border-color 0.15s}
+.detail-tab:hover{color:var(--navy)}
+.detail-tab.active{color:var(--navy);font-weight:700;border-bottom-color:var(--navy)}
+.detail-content{flex:1;padding:20px 24px;overflow-y:auto}
 
-    /* CONTENT CARDS */
-    .card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 18px; overflow: hidden; }
-    .card-head { padding: 16px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .card-head h4 { font-size: 14px; font-weight: 700; color: var(--dark-navy); }
-    .card-body { padding: 20px 22px; }
+/* INFO GRID */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.info-card{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:14px 16px}
+.info-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:3px}
+.info-val{font-size:14px;font-weight:600;color:var(--text)}
 
-    /* SCORE DISPLAY */
-    .score-wrap { display: flex; align-items: center; gap: 36px; }
-    .score-circle { text-align: center; flex-shrink: 0; }
-    .score-num { font-size: 58px; font-weight: 800; line-height: 1; }
-    .score-label { font-size: 13px; font-weight: 700; margin-top: 4px; }
-    .score-of { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-    .score-bar-wrap { margin-top: 10px; background: #EEF2F8; border-radius: 4px; height: 8px; width: 120px; margin: 10px auto 0; }
-    .score-bar-fill { height: 8px; border-radius: 4px; }
-    .credit-grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .credit-cell { background: var(--off-white); border-radius: 8px; padding: 10px 14px; border: 1px solid var(--border); }
-    .credit-cell .c-label { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
-    .credit-cell .c-val { font-size: 16px; font-weight: 700; color: var(--text-main); }
-    .c-danger { color: #DC2626 !important; }
-    .c-warn { color: #D97706 !important; }
-    .c-ok { color: #16A34A !important; }
+/* SCORE CARD */
+.score-card{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:20px;margin-bottom:12px}
+.score-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.score-title{font-size:13px;font-weight:700;color:var(--navy)}
+.score-display{display:flex;align-items:center;gap:24px;margin-bottom:14px}
+.score-num{font-size:52px;font-weight:800;line-height:1}
+.score-bar-wrap{flex:1}
+.score-bar-bg{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.score-bar-fill{height:100%;border-radius:4px;transition:width 0.6s}
+.score-range{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted)}
+.score-meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.score-meta-item{background:var(--surface);border-radius:7px;padding:10px 12px}
+.smi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:3px}
+.smi-val{font-size:14px;font-weight:700;color:var(--text)}
 
-    /* ENGINE BOX */
-    .engine-box { background: #FFFBEB; border: 1px solid #FDE68A; border-radius: 12px; padding: 18px 22px; }
-    .engine-box h5 { font-size: 13px; font-weight: 700; color: #78350F; margin-bottom: 8px; }
-    .engine-box p { font-size: 13px; color: #92400E; line-height: 1.65; }
-    .engine-rule { margin-top: 10px; font-size: 12px; color: #B45309; }
-    .engine-rule strong { font-weight: 700; }
+/* DECISION ENGINE RESULT */
+.engine-card{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:16px 18px;margin-bottom:12px}
+.engine-result{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.engine-indicator{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.engine-label{font-size:13px;font-weight:700;color:var(--text)}
+.engine-rule{font-size:12.5px;color:var(--muted);line-height:1.5}
 
-    /* NOTES */
-    .note-item { padding: 14px 0; border-bottom: 1px solid #F1F5F9; }
-    .note-item:last-child { border-bottom: none; }
-    .note-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
-    .note-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--dark-navy); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-    .note-author { font-size: 13px; font-weight: 600; color: var(--text-main); }
-    .note-time { font-size: 12px; color: var(--text-muted); }
-    .note-text { font-size: 13px; color: #374151; padding-left: 38px; line-height: 1.55; }
-    .note-input { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 9px; font-size: 13px; font-family: inherit; resize: vertical; outline: none; color: var(--text-main); }
-    .note-input:focus { border-color: var(--navy); }
-    .btn-primary { padding: 9px 22px; background: linear-gradient(135deg, var(--dark-navy), var(--navy)); color: var(--white); border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
-    .btn-sm { padding: 5px 12px; border-radius: 6px; font-size: 11.5px; font-weight: 500; cursor: pointer; font-family: inherit; border: 1px solid var(--border); background: var(--white); color: var(--text-main); }
-    .btn-verify { background: #F0FDF4; color: #15803D; border-color: #BBF7D0; }
-    .btn-reject { background: #FEF2F2; color: #B91C1C; border-color: #FCA5A5; }
-    .btn-resend { background: var(--off-white); color: var(--text-muted); }
+/* DOC LIST */
+.doc-list{display:flex;flex-direction:column;gap:8px}
+.doc-row{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--white);border:1px solid var(--border);border-radius:8px}
+.doc-name{font-size:13px;font-weight:600;color:var(--text)}
+.doc-status{font-size:12px;color:var(--muted)}
 
-    /* DOCS */
-    .doc-row { display: flex; align-items: center; gap: 14px; padding: 13px 0; border-bottom: 1px solid #F1F5F9; }
-    .doc-row:last-child { border-bottom: none; }
-    .doc-icon { width: 38px; height: 38px; background: #EBF1FF; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-    .doc-info { flex: 1; }
-    .doc-name { font-size: 13.5px; font-weight: 600; color: var(--text-main); margin-bottom: 2px; }
-    .doc-sub { font-size: 11.5px; color: var(--text-muted); }
-    .doc-actions { display: flex; gap: 6px; align-items: center; }
+/* NOTE */
+.note-box{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:16px}
+textarea.note-input{width:100%;min-height:90px;border:1.5px solid var(--border);border-radius:7px;padding:10px 12px;font-family:inherit;font-size:13.5px;color:var(--text);resize:vertical;margin-bottom:10px}
+textarea.note-input:focus{outline:none;border-color:var(--navy)}
+.btn-sm{display:inline-flex;align-items:center;height:32px;padding:0 14px;background:var(--navy);color:var(--white);border:none;border-radius:6px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;transition:opacity 0.15s}
+.btn-sm:hover{opacity:0.9}
 
-    /* SECTIONS for landing view */
-    .section-view { display: none; }
-    .section-view.active { display: block; }
-    .sec-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin-bottom: 16px; }
-    .sec-card-title { font-size: 14px; font-weight: 700; color: var(--dark-navy); margin-bottom: 12px; }
-    .app-list-row { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid #F1F5F9; cursor: pointer; }
-    .app-list-row:last-child { border-bottom: none; }
-    .app-list-row:hover { background: #F8FAFF; margin: 0 -4px; padding: 12px 4px; border-radius: 6px; }
-    .app-list-row .alr-ref { font-family: monospace; font-size: 12px; font-weight: 700; color: var(--navy); min-width: 130px; }
-    .app-list-row .alr-name { font-size: 13px; font-weight: 500; flex: 1; }
-    .app-list-row .alr-amount { font-size: 13px; color: var(--text-muted); min-width: 80px; }
-
-    /* EMPTY STATE */
-    .empty { text-align: center; padding: 48px 24px; }
-    .empty-icon { font-size: 40px; margin-bottom: 12px; }
-    .empty-text { font-size: 14px; color: var(--text-muted); }
-
-    /* MOBILE NAV TOGGLE */
-    .nav-toggle { display: none; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; width: 38px; height: 38px; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
-    .nav-toggle::before, .nav-toggle::after { content: ''; display: block; width: 18px; height: 2px; background: #fff; border-radius: 2px; }
-    .nav-toggle::before { margin-bottom: 4px; }
-    .nav-toggle::after { margin-top: 4px; }
-    .queue-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 150; }
-    .queue-backdrop.open { display: block; }
-
-    @media (max-width: 900px) {
-      .nav-toggle { display: flex; }
-      .queue-panel {
-        position: fixed;
-        left: 0;
-        top: 68px;
-        height: calc(100vh - 68px);
-        z-index: 200;
-        transform: translateX(-100%);
-        transition: transform 0.2s ease;
-        box-shadow: 0 0 40px rgba(0,0,0,0.25);
-      }
-      .queue-panel.open { transform: translateX(0); }
-      .detail-panel { padding: 20px; }
-    }
-
-    @media (max-width: 640px) {
-      header { padding: 0 14px; gap: 10px; }
-      .hdr-titles .main { font-size: 12.5px; }
-      .hdr-titles .sub { font-size: 8px; letter-spacing: 1px; }
-      .worker-tag { display: none; }
-      .back-btn span.back-text { display: none; }
-      .back-btn { padding: 7px 10px; }
-
-      .detail-panel { padding: 16px; }
-      .app-hdr-card { padding: 16px; }
-      .app-hdr-top { flex-direction: column; gap: 14px; align-items: stretch; }
-      .action-btns { flex-wrap: wrap; }
-      .action-btns button { flex: 1; }
-      .app-name { font-size: 18px; }
-
-      .score-wrap { flex-direction: column; gap: 18px; }
-      .credit-grid { grid-template-columns: 1fr 1fr; width: 100%; }
-
-      .sub-tabs { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-      .card-head { padding: 14px 16px; flex-wrap: wrap; gap: 8px; }
-      .card-body { padding: 16px; }
-
-      .doc-row { flex-wrap: wrap; }
-      .doc-actions { width: 100%; justify-content: flex-end; }
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hdr-toggle{display:flex}
+  .queue-panel{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);transition:transform 0.2s;box-shadow:4px 0 20px rgba(0,0,0,0.15)}
+  .queue-panel.open{transform:translateX(0)}
+  .worker-name{display:none}
+}
+@media(max-width:600px){
+  header{padding:0 14px}
+  .detail-content{padding:16px}
+  .info-grid{grid-template-columns:1fr}
+  .score-meta-grid{grid-template-columns:1fr 1fr}
+  .score-display{flex-direction:column;align-items:flex-start;gap:12px}
+  .score-num{font-size:40px}
+  .action-btns{gap:6px}
+}
+</style>
 </head>
 <body>
-
-<!-- HEADER -->
 <header>
-  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle application queue" onclick="toggleQueue()"></button>
-  <div class="hdr-titles">
-    <div class="main">Ramus Financial Solutions</div>
-    <div class="sub">Worker Dashboard</div>
-  </div>
+  <button class="hdr-toggle" onclick="toggleQueue()"><span></span><span></span><span></span></button>
+  <div class="hdr-brand">RAMUS <span>FINANCIAL SOLUTIONS</span></div>
   <div class="hdr-right">
-    <span class="worker-tag">Welcome, K. Naidoo</span>
-    <a href="index.html" class="back-btn">← <span class="back-text">Back to Portal</span></a>
-    <div class="avatar">KN</div>
+    <span class="worker-name">K. Naidoo</span>
+    <a href="index.html" class="back-link">Portal</a>
+    <div class="hdr-avatar">KN</div>
   </div>
 </header>
 
@@ -260,350 +157,170 @@
 
 <div class="layout">
 
-  <!-- QUEUE PANEL -->
-  <div class="queue-panel">
-    <div class="queue-hdr">
-      <h3>My Application Queue</h3>
-      <p>3 applications assigned to me</p>
-    </div>
-    <div class="queue-list">
-      <div class="queue-item active" onclick="selectApp('a1', this)">
-        <div class="qi-top">
-          <span class="qi-ref">RCL-X7K29MQA</span>
-          <span class="badge badge-escalated">ESCALATED</span>
-        </div>
-        <div class="qi-name">T. Mokoena</div>
-        <div class="qi-meta">
-          <span class="qi-amount">R 4,500</span>
-          <span class="badge badge-amber">Manual Review</span>
-        </div>
-        <div class="qi-age urgent">⚠ In queue 3.5 hours</div>
-      </div>
-      <div class="queue-item" onclick="selectApp('a2', this)">
-        <div class="qi-top">
-          <span class="qi-ref">RCL-B4R72NWP</span>
-        </div>
-        <div class="qi-name">N. van der Berg</div>
-        <div class="qi-meta">
-          <span class="qi-amount">R 2,500</span>
-          <span class="badge badge-blue">Under Review</span>
-        </div>
-        <div class="qi-age">In queue 1.2 hours</div>
-      </div>
-      <div class="queue-item" onclick="selectApp('a3', this)">
-        <div class="qi-top">
-          <span class="qi-ref">RCL-K5T11QXZ</span>
-        </div>
-        <div class="qi-name">M. Khumalo</div>
-        <div class="qi-meta">
-          <span class="qi-amount">R 3,500</span>
-          <span class="badge badge-blue">Under Review</span>
-        </div>
-        <div class="qi-age urgent">⚠ In queue 5.1 hours</div>
-      </div>
-    </div>
+<!-- QUEUE PANEL -->
+<div class="queue-panel" id="queue-panel">
+  <div class="queue-hdr">
+    <div class="queue-title">Application Queue</div>
+    <span class="queue-count">3</span>
   </div>
-
-  <!-- DETAIL PANEL -->
-  <div class="detail-panel" id="detail-panel">
-
-    <!-- Application header card -->
-    <div class="app-hdr-card" id="app-hdr-card">
-      <div class="app-hdr-top">
-        <div>
-          <div class="app-ref-row">
-            <span class="app-ref" id="app-detail-ref">RCL-X7K29MQA</span>
-            <span class="badge badge-amber" id="app-detail-status">Manual Review</span>
-            <span class="badge badge-escalated" id="app-detail-escalated">ESCALATED</span>
-          </div>
-          <div class="app-name" id="app-detail-name">T. Mokoena</div>
-          <div class="app-meta" id="app-detail-meta">
-            Requesting <strong>R 4,500</strong> over <strong>6 monthly instalments</strong> &nbsp;·&nbsp; Debt-to-Income: <strong style="color:#D97706;">38%</strong> &nbsp;·&nbsp; Submitted 11 Jun 2026
-          </div>
-        </div>
-        <div class="action-btns">
-          <button class="btn-approve" onclick="decideApplication('approve')">✓ Approve</button>
-          <button class="btn-decline" onclick="decideApplication('decline')">✕ Decline</button>
-          <button class="btn-escalate" onclick="decideApplication('escalate')">↑ Escalate</button>
-        </div>
-      </div>
-      <div id="decision-confirm" style="display:none;margin-top:16px;padding:14px 18px;border-radius:10px;font-size:13px;"></div>
+  <div class="queue-search"><input placeholder="Search applications..." /></div>
+  <div class="queue-list">
+    <div class="queue-item active" onclick="selectApp('a1',this)">
+      <div class="qi-top"><span class="qi-ref">RCL-X7K29MQA</span><span class="qi-amount">R 4,500</span></div>
+      <div class="qi-name">T. Mokoena</div>
+      <div class="qi-meta"><span class="badge badge-amber">Manual Review</span><span class="qi-time">3.5h ago</span></div>
     </div>
-
-    <!-- Sub-tabs -->
-    <div class="sub-tabs">
-      <button class="sub-tab active" onclick="showSubTab('credit', this)">Credit Profile</button>
-      <button class="sub-tab" onclick="showSubTab('documents', this)">Documents</button>
-      <button class="sub-tab" onclick="showSubTab('notes', this)">Internal Notes</button>
-      <button class="sub-tab" onclick="showSubTab('followup', this)">Follow-ups</button>
+    <div class="queue-item" onclick="selectApp('a2',this)">
+      <div class="qi-top"><span class="qi-ref">RCL-B4R72NWP</span><span class="qi-amount">R 2,500</span></div>
+      <div class="qi-name">N. van der Berg</div>
+      <div class="qi-meta"><span class="badge badge-blue">Under Review</span><span class="qi-time">1.2h ago</span></div>
     </div>
-
-    <!-- CREDIT TAB -->
-    <div id="subtab-credit">
-      <div class="card">
-        <div class="card-head"><h4>TransUnion Credit Bureau Report</h4><span style="font-size:11px;color:var(--text-muted);">Pulled 11 Jun 2026, 08:55</span></div>
-        <div class="card-body">
-          <div class="score-wrap">
-            <div class="score-circle">
-              <div class="score-num" style="color:#D97706;">612</div>
-              <div class="score-label" style="color:#D97706;">Fair</div>
-              <div class="score-of">out of 999</div>
-              <div class="score-bar-wrap"><div class="score-bar-fill" style="width:61%;background:#D97706;"></div></div>
-            </div>
-            <div class="credit-grid">
-              <div class="credit-cell"><div class="c-label">Total Credit Accounts</div><div class="c-val">4</div></div>
-              <div class="credit-cell"><div class="c-label">Open Accounts</div><div class="c-val">3</div></div>
-              <div class="credit-cell"><div class="c-label">Negative Listings</div><div class="c-val c-warn">1</div></div>
-              <div class="credit-cell"><div class="c-label">Active Judgements</div><div class="c-val c-ok">0</div></div>
-              <div class="credit-cell"><div class="c-label">Payment Defaults</div><div class="c-val c-ok">0</div></div>
-              <div class="credit-cell"><div class="c-label">Enquiries (90 days)</div><div class="c-val">2</div></div>
-              <div class="credit-cell"><div class="c-label">Monthly Debt Obligations</div><div class="c-val">R 4,200</div></div>
-              <div class="credit-cell"><div class="c-label">Total Outstanding Balance</div><div class="c-val">R 42,300</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="engine-box">
-        <h5>⚙ System Recommendation — Referred to Manual Review</h5>
-        <p>This application has been referred for manual assessment. Risk classification: MEDIUM. Credit score of 612 falls within the manual review threshold (450–699). Monthly income declared: R 12,400. Debt-to-income ratio: 38%. One negative credit listing recorded. No judgements or defaults present. A credit analyst should complete a full affordability assessment before a final decision is made.</p>
-        <div class="engine-rule">Triggering rule: <strong>Moderate credit score — refer to analyst</strong> (Rule priority 50)</div>
-      </div>
+    <div class="queue-item" onclick="selectApp('a3',this)">
+      <div class="qi-top"><span class="qi-ref">RCL-K5T11QXZ</span><span class="qi-amount">R 3,500</span></div>
+      <div class="qi-name">M. Khumalo</div>
+      <div class="qi-meta"><span class="badge badge-blue">Under Review</span><span class="qi-time">5.1h ago</span></div>
     </div>
-
-    <!-- DOCUMENTS TAB -->
-    <div id="subtab-documents" style="display:none;">
-      <div class="card">
-        <div class="card-head"><h4>Application Documents</h4><button class="btn-sm">+ Request Additional Document</button></div>
-        <div class="card-body">
-          <div class="doc-row">
-            <div class="doc-icon">🪪</div>
-            <div class="doc-info">
-              <div class="doc-name">South African ID Document</div>
-              <div class="doc-sub">Uploaded 10 Jun 2026</div>
-            </div>
-            <span class="badge badge-green">Verified</span>
-          </div>
-          <div class="doc-row">
-            <div class="doc-icon">📄</div>
-            <div class="doc-info">
-              <div class="doc-name">Latest Payslip</div>
-              <div class="doc-sub">Uploaded 10 Jun 2026</div>
-            </div>
-            <span class="badge badge-green">Verified</span>
-          </div>
-          <div class="doc-row">
-            <div class="doc-icon">🏦</div>
-            <div class="doc-info">
-              <div class="doc-name">3-Month Bank Statement</div>
-              <div class="doc-sub">Uploaded 11 Jun 2026 — Awaiting review</div>
-            </div>
-            <span class="badge badge-amber">Pending Review</span>
-            <div class="doc-actions">
-              <button class="btn-sm btn-verify">✓ Verify</button>
-              <button class="btn-sm btn-reject">✕ Reject</button>
-            </div>
-          </div>
-          <div class="doc-row">
-            <div class="doc-icon">🏠</div>
-            <div class="doc-info">
-              <div class="doc-name">Proof of Residence</div>
-              <div class="doc-sub">Not yet uploaded — request sent</div>
-            </div>
-            <span class="badge badge-red">Awaited</span>
-            <div class="doc-actions">
-              <button class="btn-sm btn-resend">Resend Request</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- NOTES TAB -->
-    <div id="subtab-notes" style="display:none;">
-      <div class="card">
-        <div class="card-head"><h4>Internal Notes</h4><span style="font-size:11px;color:var(--text-muted);">Only visible to credit staff</span></div>
-        <div class="card-body" id="notes-list">
-          <div class="note-item">
-            <div class="note-meta">
-              <div class="note-avatar">K</div>
-              <span class="note-author">K. Naidoo</span>
-              <span class="note-time">Today, 09:44</span>
-            </div>
-            <div class="note-text">Client called to confirm employment details. HR contact name: Mrs. B. Louw, tel: 011 555 0122. Employment confirmed as permanent, 4 years service.</div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-head"><h4>Add a Note</h4></div>
-        <div class="card-body">
-          <textarea class="note-input" id="note-text" rows="4" placeholder="Add an internal note about this application — e.g. verification details, concerns, follow-up actions…"></textarea>
-          <div style="display:flex;justify-content:flex-end;margin-top:12px;">
-            <button class="btn-primary" onclick="addNote()">Save Note</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FOLLOW-UPS TAB -->
-    <div id="subtab-followup" style="display:none;">
-      <div class="card">
-        <div class="card-head"><h4>Follow-up Tasks</h4><button class="btn-sm">+ Add Task</button></div>
-        <div class="card-body">
-          <div style="display:flex;flex-direction:column;gap:12px;">
-            <div style="display:flex;align-items:flex-start;gap:14px;padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--off-white);">
-              <input type="checkbox" style="margin-top:3px;accent-color:var(--navy);width:16px;height:16px;flex-shrink:0;" />
-              <div style="flex:1;">
-                <div style="font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:3px;">Verify 3-month bank statement</div>
-                <div style="font-size:12px;color:var(--text-muted);">Check income consistency and average monthly balance. Flag any unusual transactions.</div>
-                <div style="font-size:11px;color:#D97706;margin-top:5px;">⏰ Due: Today</div>
-              </div>
-            </div>
-            <div style="display:flex;align-items:flex-start;gap:14px;padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--off-white);">
-              <input type="checkbox" style="margin-top:3px;accent-color:var(--navy);width:16px;height:16px;flex-shrink:0;" />
-              <div style="flex:1;">
-                <div style="font-size:13px;font-weight:600;color:var(--text-main);margin-bottom:3px;">Request proof of residence</div>
-                <div style="font-size:12px;color:var(--text-muted);">Applicant has been notified. Must be a utility bill or bank letter not older than 3 months.</div>
-                <div style="font-size:11px;color:#D97706;margin-top:5px;">⏰ Due: 12 Jun 2026</div>
-              </div>
-            </div>
-            <div style="display:flex;align-items:flex-start;gap:14px;padding:14px;border:1px solid #BBF7D0;border-radius:10px;background:#F0FDF4;">
-              <input type="checkbox" checked style="margin-top:3px;accent-color:var(--navy);width:16px;height:16px;flex-shrink:0;" />
-              <div style="flex:1;opacity:0.6;">
-                <div style="font-size:13px;font-weight:600;color:var(--text-main);text-decoration:line-through;margin-bottom:3px;">Confirm employment with employer</div>
-                <div style="font-size:12px;color:var(--text-muted);">Called HR on 011 555 0122. Confirmed permanent employment, 4 years.</div>
-                <div style="font-size:11px;color:#15803D;margin-top:5px;">✓ Completed Today</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head"><h4>Submit for Final Decision</h4></div>
-        <div class="card-body">
-          <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">Once you have completed your review and all outstanding tasks, use the buttons below to submit your recommendation. This action is logged and cannot be undone.</p>
-          <div style="display:flex;gap:10px;">
-            <button class="btn-approve" style="padding:12px 28px;font-size:14px;">✓ Recommend Approval</button>
-            <button class="btn-decline" style="padding:12px 28px;font-size:14px;">✕ Recommend Decline</button>
-          </div>
-          <p style="font-size:11px;color:var(--text-muted);margin-top:10px;">Your recommendation will be recorded in the audit log along with your name and timestamp.</p>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
 
-<script>
-  function decideApplication(action) {
-    const statusEl = document.getElementById('app-detail-status');
-    const escalatedEl = document.getElementById('app-detail-escalated');
-    const confirmEl = document.getElementById('decision-confirm');
-    const ref = document.getElementById('app-detail-ref').textContent;
+<!-- DETAIL PANEL -->
+<div class="detail">
+  <!-- APP HEADER -->
+  <div class="app-hdr-card" id="app-hdr-card">
+    <div class="app-ref-row">
+      <span class="app-ref" id="app-ref">RCL-X7K29MQA</span>
+      <span class="badge badge-amber" id="app-status-badge">Manual Review</span>
+      <span class="badge badge-escalated" id="app-escalated-badge" style="display:none">ESCALATED</span>
+    </div>
+    <div class="app-name" id="app-name">T. Mokoena</div>
+    <div class="app-meta" id="app-meta">Requesting <strong>R 4,500</strong> over <strong>6 monthly instalments</strong> &nbsp;&middot;&nbsp; DTI: <strong style="color:var(--amber)">38%</strong> &nbsp;&middot;&nbsp; Submitted 11 Jun 2026</div>
+    <div class="action-btns">
+      <button class="btn-approve" onclick="decideApplication('approve')">Approve</button>
+      <button class="btn-decline" onclick="decideApplication('decline')">Decline</button>
+      <button class="btn-escalate" onclick="decideApplication('escalate')">Escalate</button>
+    </div>
+    <div class="decision-confirm" id="decision-confirm"></div>
+  </div>
 
-    let statusText, statusClass, message, messageBg, messageColor;
+  <!-- DETAIL TABS -->
+  <div class="detail-tabs">
+    <button class="detail-tab active" onclick="showTab('credit',this)">Credit Profile</button>
+    <button class="detail-tab" onclick="showTab('personal',this)">Personal</button>
+    <button class="detail-tab" onclick="showTab('documents',this)">Documents</button>
+    <button class="detail-tab" onclick="showTab('notes',this)">Notes</button>
+  </div>
 
-    if (action === 'approve') {
-      statusText = 'Approved'; statusClass = 'badge badge-green';
-      message = '✓ ' + ref + ' has been approved. The applicant will be notified by email and SMS.';
-      messageBg = '#F0FDF4'; messageColor = '#15803D';
-    } else if (action === 'decline') {
-      statusText = 'Declined'; statusClass = 'badge badge-red';
-      message = '✕ ' + ref + ' has been declined. A written reason will be sent to the applicant as required by the NCA.';
-      messageBg = '#FEF2F2'; messageColor = '#B91C1C';
-    } else {
-      statusText = 'Manual Review'; statusClass = 'badge badge-amber';
-      message = '↑ ' + ref + ' has been escalated to a senior analyst for further review.';
-      messageBg = '#FFFBEB'; messageColor = '#92400E';
-    }
-
-    statusEl.className = statusClass;
-    statusEl.textContent = statusText;
-    if (action === 'escalate') {
-      escalatedEl.style.display = 'inline-flex';
-    }
-
-    confirmEl.style.background = messageBg;
-    confirmEl.style.color = messageColor;
-    confirmEl.style.border = '1px solid ' + messageColor;
-    confirmEl.textContent = message;
-    confirmEl.style.display = 'block';
-
-    // Reflect the same status on the matching queue item, if present
-    document.querySelectorAll('.queue-item').forEach(item => {
-      const refSpan = item.querySelector('.qi-ref');
-      if (refSpan && refSpan.textContent === ref) {
-        const badge = item.querySelector('.qi-meta .badge');
-        if (badge) {
-          badge.className = statusClass;
-          badge.textContent = statusText;
-        }
-      }
-    });
-  }
-
-  const APP_DATA = {
-    a1: { ref: 'RCL-X7K29MQA', name: 'T. Mokoena', amount: 'R 4,500', term: '6 monthly instalments', dti: '38%', submitted: '11 Jun 2026', status: 'Manual Review', statusClass: 'badge badge-amber', escalated: true },
-    a2: { ref: 'RCL-B4R72NWP', name: 'N. van der Berg', amount: 'R 2,500', term: 'Pay in full after 30 days', dti: '22%', submitted: '10 Jun 2026', status: 'Under Review', statusClass: 'badge badge-blue', escalated: false },
-    a3: { ref: 'RCL-K5T11QXZ', name: 'M. Khumalo', amount: 'R 3,500', term: '3 monthly instalments', dti: '41%', submitted: '06 Jun 2026', status: 'Under Review', statusClass: 'badge badge-blue', escalated: false },
-  };
-
-  function selectApp(id, el) {
-    document.querySelectorAll('.queue-item').forEach(i => i.classList.remove('active'));
-    el.classList.add('active');
-
-    const data = APP_DATA[id];
-    if (data) {
-      document.getElementById('app-detail-ref').textContent = data.ref;
-      document.getElementById('app-detail-name').textContent = data.name;
-      const statusEl = document.getElementById('app-detail-status');
-      statusEl.className = data.statusClass;
-      statusEl.textContent = data.status;
-      document.getElementById('app-detail-escalated').style.display = data.escalated ? 'inline-flex' : 'none';
-      document.getElementById('app-detail-meta').innerHTML =
-        'Requesting <strong>' + data.amount + '</strong> over <strong>' + data.term + '</strong> &nbsp;·&nbsp; Debt-to-Income: <strong style="color:#D97706;">' + data.dti + '</strong> &nbsp;·&nbsp; Submitted ' + data.submitted;
-      document.getElementById('decision-confirm').style.display = 'none';
-    }
-    closeQueue();
-  }
-
-  function toggleQueue() {
-    document.querySelector('.queue-panel').classList.toggle('open');
-    document.getElementById('queue-backdrop').classList.toggle('open');
-  }
-  function closeQueue() {
-    document.querySelector('.queue-panel').classList.remove('open');
-    document.getElementById('queue-backdrop').classList.remove('open');
-  }
-
-  function showSubTab(name, btn) {
-    document.querySelectorAll('[id^="subtab-"]').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
-    document.getElementById('subtab-' + name).style.display = 'block';
-    btn.classList.add('active');
-  }
-
-  function addNote() {
-    const txt = document.getElementById('note-text').value.trim();
-    if (!txt) return;
-    const now = new Date();
-    const time = 'Today, ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-    const list = document.getElementById('notes-list');
-    const item = document.createElement('div');
-    item.className = 'note-item';
-    item.innerHTML = `
-      <div class="note-meta">
-        <div class="note-avatar">K</div>
-        <span class="note-author">K. Naidoo</span>
-        <span class="note-time">${time}</span>
+  <!-- TAB: CREDIT PROFILE -->
+  <div class="detail-content" id="tab-credit">
+    <div class="score-card">
+      <div class="score-header"><div class="score-title">Credit Score</div><span class="badge badge-amber">Moderate Risk</span></div>
+      <div class="score-display">
+        <div class="score-num" style="color:var(--amber)">612</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:55%;background:var(--amber)"></div></div>
+          <div class="score-range"><span>300</span><span>999</span></div>
+        </div>
       </div>
-      <div class="note-text">${txt}</div>
-    `;
-    list.appendChild(item);
-    document.getElementById('note-text').value = '';
-  }
-</script>
+      <div class="score-meta-grid">
+        <div class="score-meta-item"><div class="smi-label">Income</div><div class="smi-val">R 18,500</div></div>
+        <div class="score-meta-item"><div class="smi-label">Expenses</div><div class="smi-val">R 11,200</div></div>
+        <div class="score-meta-item"><div class="smi-label">Net Monthly</div><div class="smi-val" style="color:var(--green)">R 7,300</div></div>
+        <div class="score-meta-item"><div class="smi-label">DTI Ratio</div><div class="smi-val" style="color:var(--amber)">38%</div></div>
+        <div class="score-meta-item"><div class="smi-label">Affordability</div><div class="smi-val" style="color:var(--green)">62%</div></div>
+        <div class="score-meta-item"><div class="smi-label">Active Accounts</div><div class="smi-val">3</div></div>
+      </div>
+    </div>
+    <div class="engine-card">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px">Decision Engine Result</div>
+      <div class="engine-result">
+        <div class="engine-indicator" style="background:var(--amber)"></div>
+        <div class="engine-label">Manual Review Required</div>
+      </div>
+      <div class="engine-rule">Triggering rule: <strong>Moderate credit score — refer to analyst</strong> (Rule priority 50)</div>
+    </div>
+  </div>
 
+  <!-- TAB: PERSONAL -->
+  <div class="detail-content" id="tab-personal" style="display:none">
+    <div class="info-grid">
+      <div class="info-card"><div class="info-label">Full Name</div><div class="info-val">T. Mokoena</div></div>
+      <div class="info-card"><div class="info-label">ID Number</div><div class="info-val" style="font-family:monospace">87****4028</div></div>
+      <div class="info-card"><div class="info-label">Phone</div><div class="info-val">082 ***-4567</div></div>
+      <div class="info-card"><div class="info-label">Email</div><div class="info-val">t.mokoena@***</div></div>
+      <div class="info-card"><div class="info-label">Province</div><div class="info-val">Gauteng</div></div>
+      <div class="info-card"><div class="info-label">Driver Type</div><div class="info-val">Bolt driver</div></div>
+      <div class="info-card"><div class="info-label">Loan Amount</div><div class="info-val">R 4,500</div></div>
+      <div class="info-card"><div class="info-label">Repayment</div><div class="info-val">6 monthly instalments</div></div>
+    </div>
+  </div>
+
+  <!-- TAB: DOCUMENTS -->
+  <div class="detail-content" id="tab-documents" style="display:none">
+    <div class="doc-list">
+      <div class="doc-row"><div><div class="doc-name">South African ID</div><div class="doc-status">Uploaded 11 Jun 2026</div></div><span class="badge badge-green">Verified</span></div>
+      <div class="doc-row"><div><div class="doc-name">Driver's License</div><div class="doc-status">Uploaded 11 Jun 2026</div></div><span class="badge badge-green">Verified</span></div>
+      <div class="doc-row"><div><div class="doc-name">Proof of Address</div><div class="doc-status">Uploaded 11 Jun 2026</div></div><span class="badge badge-amber">Pending Review</span></div>
+      <div class="doc-row"><div><div class="doc-name">Bank Statements</div><div class="doc-status">Uploaded 11 Jun 2026</div></div><span class="badge badge-green">Verified</span></div>
+      <div class="doc-row"><div><div class="doc-name">Payslips</div><div class="doc-status">Not provided</div></div><span class="badge badge-gray">Optional</span></div>
+    </div>
+  </div>
+
+  <!-- TAB: NOTES -->
+  <div class="detail-content" id="tab-notes" style="display:none">
+    <div class="note-box">
+      <div style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px">Analyst Notes</div>
+      <textarea class="note-input" placeholder="Add a note about this application..."></textarea>
+      <button class="btn-sm">Save Note</button>
+    </div>
+  </div>
+
+</div><!-- /detail -->
+</div><!-- /layout -->
+
+<script>
+const APP_DATA={
+  a1:{ref:'RCL-X7K29MQA',name:'T. Mokoena',amount:'R 4,500',term:'6 monthly instalments',dti:'38%',submitted:'11 Jun 2026',status:'Manual Review',statusClass:'badge badge-amber',escalated:true},
+  a2:{ref:'RCL-B4R72NWP',name:'N. van der Berg',amount:'R 2,500',term:'Pay in full after 30 days',dti:'22%',submitted:'10 Jun 2026',status:'Under Review',statusClass:'badge badge-blue',escalated:false},
+  a3:{ref:'RCL-K5T11QXZ',name:'M. Khumalo',amount:'R 3,500',term:'3 monthly instalments',dti:'41%',submitted:'06 Jun 2026',status:'Under Review',statusClass:'badge badge-blue',escalated:false},
+};
+function selectApp(id,el){
+  document.querySelectorAll('.queue-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  const d=APP_DATA[id];
+  if(d){
+    document.getElementById('app-ref').textContent=d.ref;
+    document.getElementById('app-name').textContent=d.name;
+    const sb=document.getElementById('app-status-badge');
+    sb.className=d.statusClass;sb.textContent=d.status;
+    document.getElementById('app-escalated-badge').style.display=d.escalated?'inline-flex':'none';
+    document.getElementById('app-meta').innerHTML='Requesting <strong>'+d.amount+'</strong> over <strong>'+d.term+'</strong> &nbsp;&middot;&nbsp; DTI: <strong>'+d.dti+'</strong> &nbsp;&middot;&nbsp; Submitted '+d.submitted;
+    document.getElementById('decision-confirm').style.display='none';
+  }
+  if(window.innerWidth<=900)toggleQueue();
+}
+function showTab(id,el){
+  document.querySelectorAll('.detail-content').forEach(t=>t.style.display='none');
+  document.getElementById('tab-'+id).style.display='block';
+  document.querySelectorAll('.detail-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function decideApplication(action){
+  const sb=document.getElementById('app-status-badge');
+  const confirm=document.getElementById('decision-confirm');
+  const ref=document.getElementById('app-ref').textContent;
+  let statusText,statusClass,msg,bg,color;
+  if(action==='approve'){statusText='Approved';statusClass='badge badge-green';msg=ref+' has been approved. The applicant will be notified.';bg='#F0FDF4';color='var(--green)';}
+  else if(action==='decline'){statusText='Declined';statusClass='badge badge-red';msg=ref+' has been declined. A written reason will be provided to the applicant.';bg='#FEF2F2';color='var(--red)';}
+  else{statusText='Manual Review';statusClass='badge badge-amber';msg=ref+' has been escalated for senior review.';bg='#FFFBEB';color='var(--amber)';document.getElementById('app-escalated-badge').style.display='inline-flex';}
+  sb.className=statusClass;sb.textContent=statusText;
+  confirm.style.cssText='display:block;background:'+bg+';color:'+color+';border:1px solid '+color+';border-radius:8px;padding:10px 14px;font-size:13px;margin-top:14px';
+  confirm.textContent=msg;
+  document.querySelectorAll('.queue-item.active .badge').forEach(b=>{b.className=statusClass;b.textContent=statusText;});
+}
+function toggleQueue(){
+  document.getElementById('queue-panel').classList.toggle('open');
+  document.getElementById('queue-backdrop').classList.toggle('open');
+}
+</script>
 </body>
 </html>

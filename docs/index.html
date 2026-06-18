@@ -7,348 +7,119 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    --navy: #071B4A;
-    --navy-deep: #050F30;
-    --gold: #D4A017;
-    --gold-deep: #B5860E;
-    --white: #FFFFFF;
-    --mist: #F7F8FA;
-    --line: #E6E9F0;
-    --slate: #5B6478;
-  }
+:root {
+  --navy:   #071B4A;
+  --navy2:  #0A2563;
+  --gold:   #C9A028;
+  --white:  #FFFFFF;
+  --surface:#F7F8FB;
+  --border: #E2E8F0;
+  --muted:  #64748B;
+  --text:   #0F172A;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'Inter',-apple-system,'Segoe UI',sans-serif;background:var(--white);color:var(--text);min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* HEADER */
+header{height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;border-bottom:1px solid var(--border);background:var(--white);flex-shrink:0}
+.brand{font-size:15px;font-weight:800;letter-spacing:0.02em;color:var(--navy)}
+.status-pill{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--muted)}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#16A34A;box-shadow:0 0 0 3px rgba(22,163,74,0.15);flex-shrink:0}
+.btn-signin{height:36px;padding:0 18px;border:1.5px solid var(--navy);border-radius:7px;background:var(--white);color:var(--navy);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:background 0.15s,color 0.15s}
+.btn-signin:hover{background:var(--navy);color:var(--white)}
 
-  html { -webkit-text-size-adjust: 100%; }
+/* HERO */
+.hero{text-align:center;padding:64px 24px 16px}
+.hero h1{font-size:36px;font-weight:800;letter-spacing:-0.03em;line-height:1.1;color:var(--navy);margin-bottom:12px}
+.hero p{font-size:15px;color:var(--muted);font-weight:500;max-width:420px;margin:0 auto}
 
-  body {
-    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
-    background: var(--white);
-    color: var(--navy);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    -webkit-font-smoothing: antialiased;
-  }
+/* PORTALS */
+.portals{flex:1;display:flex;align-items:center;padding:40px 24px 24px}
+.portal-grid{width:100%;max-width:1020px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.portal-card{position:relative;display:flex;flex-direction:column;background:var(--white);border:1.5px solid var(--border);border-radius:14px;padding:30px 26px;overflow:hidden;transition:border-color 0.18s,box-shadow 0.18s,transform 0.18s}
+.portal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform 0.25s ease}
+.portal-card:hover{border-color:var(--navy);box-shadow:0 12px 36px rgba(7,27,74,0.09);transform:translateY(-2px)}
+.portal-card:hover::before{transform:scaleX(1)}
+.portal-icon{width:46px;height:46px;border-radius:10px;background:var(--surface);display:flex;align-items:center;justify-content:center;margin-bottom:20px;flex-shrink:0;transition:background 0.18s}
+.portal-card:hover .portal-icon{background:var(--navy)}
+.portal-icon svg{width:22px;height:22px;stroke:var(--navy);transition:stroke 0.18s}
+.portal-card:hover .portal-icon svg{stroke:var(--white)}
+.portal-title{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.portal-desc{font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:22px;flex:1}
+.portal-cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--navy)}
+.portal-cta svg{width:13px;height:13px;stroke:var(--navy);transition:transform 0.18s}
+.portal-card:hover .portal-cta svg{transform:translateX(3px)}
 
-  a { color: inherit; }
+/* TRUST BAR */
+.trust-bar{background:var(--navy);padding:16px 24px;flex-shrink:0}
+.trust-inner{max-width:1020px;margin:0 auto;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:24px}
+.trust-item{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.85);white-space:nowrap}
+.trust-item svg{width:13px;height:13px;stroke:var(--gold);flex-shrink:0}
 
-  /* ── HEADER ─────────────────────────────────────────────────────── */
-
-  header {
-    height: 72px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .brand {
-    font-size: 16px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    color: var(--navy);
-    white-space: nowrap;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .status-pill {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--slate);
-  }
-
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #1FA86A;
-    flex-shrink: 0;
-    box-shadow: 0 0 0 3px rgba(31,168,106,0.15);
-  }
-
-  .signin-btn {
-    height: 38px;
-    padding: 0 20px;
-    border-radius: 8px;
-    border: 1.5px solid var(--navy);
-    background: var(--white);
-    color: var(--navy);
-    font-family: inherit;
-    font-size: 13.5px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    text-decoration: none;
-  }
-
-  .signin-btn:hover { background: var(--navy); color: var(--white); }
-
-  /* ── HERO ───────────────────────────────────────────────────────── */
-
-  .hero {
-    text-align: center;
-    padding: 56px 24px 8px;
-  }
-
-  .hero h1 {
-    font-size: 38px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    line-height: 1.15;
-    color: var(--navy);
-    margin-bottom: 14px;
-  }
-
-  .hero p {
-    font-size: 16px;
-    color: var(--slate);
-    font-weight: 500;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  /* ── PORTAL SELECTION ───────────────────────────────────────────── */
-
-  .portals {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    padding: 40px 24px 24px;
-  }
-
-  .portal-grid {
-    width: 100%;
-    max-width: 1040px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-
-  .portal-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    background: var(--white);
-    border: 1.5px solid var(--line);
-    border-radius: 16px;
-    padding: 32px 28px;
-    text-align: left;
-    text-decoration: none;
-    color: inherit;
-    overflow: hidden;
-    transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
-  }
-
-  .portal-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.25s ease;
-  }
-
-  .portal-card:hover {
-    border-color: var(--navy);
-    box-shadow: 0 16px 40px rgba(7,27,74,0.10);
-    transform: translateY(-3px);
-  }
-
-  .portal-card:hover::before { transform: scaleX(1); }
-
-  .portal-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    background: var(--mist);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 22px;
-    flex-shrink: 0;
-    transition: background 0.18s;
-  }
-
-  .portal-card:hover .portal-icon { background: var(--navy); }
-
-  .portal-icon svg { width: 24px; height: 24px; stroke: var(--navy); transition: stroke 0.18s; }
-  .portal-card:hover .portal-icon svg { stroke: var(--white); }
-
-  .portal-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 6px;
-  }
-
-  .portal-desc {
-    font-size: 13.5px;
-    color: var(--slate);
-    line-height: 1.5;
-    margin-bottom: 24px;
-    flex: 1;
-  }
-
-  .portal-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 13.5px;
-    font-weight: 700;
-    color: var(--navy);
-  }
-
-  .portal-cta svg {
-    width: 14px; height: 14px;
-    stroke: var(--navy);
-    transition: transform 0.18s;
-  }
-
-  .portal-card:hover .portal-cta svg { transform: translateX(3px); }
-
-  /* ── COMPLIANCE BAR ─────────────────────────────────────────────── */
-
-  .trust-bar {
-    flex-shrink: 0;
-    background: var(--navy);
-    padding: 18px 24px;
-  }
-
-  .trust-inner {
-    max-width: 1040px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 28px;
-  }
-
-  .trust-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12.5px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.88);
-    white-space: nowrap;
-  }
-
-  .trust-item svg {
-    width: 14px; height: 14px;
-    stroke: var(--gold);
-    flex-shrink: 0;
-  }
-
-  /* ── RESPONSIVE ─────────────────────────────────────────────────── */
-
-  @media (max-width: 860px) {
-    .portal-grid { grid-template-columns: 1fr; max-width: 420px; }
-    .hero h1 { font-size: 30px; }
-  }
-
-  @media (max-width: 600px) {
-    header { padding: 0 18px; height: 64px; }
-    .brand { font-size: 13.5px; }
-    .status-pill span:not(.status-dot) { display: none; }
-    .signin-btn { height: 34px; padding: 0 16px; font-size: 12.5px; }
-
-    .hero { padding: 36px 20px 4px; }
-    .hero h1 { font-size: 25px; }
-    .hero p { font-size: 14px; }
-
-    .portals { padding: 28px 18px 20px; }
-    .portal-grid { gap: 14px; }
-    .portal-card { padding: 24px 22px; }
-
-    .trust-bar { padding: 16px 18px; }
-    .trust-inner { gap: 16px 18px; }
-    .trust-item { font-size: 11.5px; }
-  }
-
-  @media (max-height: 720px) and (min-width: 601px) {
-    .hero { padding: 40px 24px 6px; }
-    .hero h1 { font-size: 32px; }
-    .portals { padding: 28px 24px 20px; }
-  }
+/* RESPONSIVE */
+@media(max-width:860px){.portal-grid{grid-template-columns:1fr;max-width:400px}.hero h1{font-size:28px}}
+@media(max-width:600px){
+  header{padding:0 18px;height:60px}
+  .status-pill span:not(.status-dot){display:none}
+  .hero{padding:40px 20px 8px}.hero h1{font-size:24px}
+  .portals{padding:24px 18px 18px}.portal-grid{gap:12px}
+  .portal-card{padding:22px 20px}
+  .trust-bar{padding:14px 18px}.trust-inner{gap:14px 18px}
+}
 </style>
 </head>
 <body>
-
 <header>
   <div class="brand">RAMUS CREDIT SYSTEM</div>
-  <div class="header-right">
-    <div class="status-pill">
-      <span class="status-dot"></span>
-      <span>Systems Operational</span>
-    </div>
-    <a href="client.html" class="signin-btn">Sign In</a>
+  <div style="display:flex;align-items:center;gap:20px">
+    <div class="status-pill"><span class="status-dot"></span><span>Systems Operational</span></div>
+    <button class="btn-signin" onclick="location.href='client.html'">Sign In</button>
   </div>
 </header>
 
 <div class="hero">
   <h1>Credit Management Portal</h1>
-  <p>Secure credit applications, reviews and approvals.</p>
+  <p>Secure credit applications, reviews and approvals for Ramus Financial Solutions.</p>
 </div>
 
 <div class="portals">
   <div class="portal-grid">
-
     <a href="client.html" class="portal-card">
       <div class="portal-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
       <div class="portal-title">Client Portal</div>
-      <div class="portal-desc">Apply for credit and track applications</div>
+      <div class="portal-desc">Apply for credit, track your application and manage your account.</div>
       <div class="portal-cta">Continue <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
     </a>
-
     <a href="worker.html" class="portal-card">
       <div class="portal-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
       </div>
       <div class="portal-title">Staff Portal</div>
-      <div class="portal-desc">Review and process applications</div>
+      <div class="portal-desc">Review applications, assess affordability and process credit decisions.</div>
       <div class="portal-cta">Continue <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
     </a>
-
     <a href="admin.html" class="portal-card">
       <div class="portal-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </div>
       <div class="portal-title">Admin Portal</div>
-      <div class="portal-desc">Manage users, reports and operations</div>
+      <div class="portal-desc">Manage users, reports, system settings and operations.</div>
       <div class="portal-cta">Continue <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
     </a>
-
   </div>
 </div>
 
 <div class="trust-bar">
   <div class="trust-inner">
-    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>NCR Registered</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>NCR Registered &middot; NCRCP19178</div>
     <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>POPIA Compliant</div>
     <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Bank-Grade Security</div>
     <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Audit Logging</div>
   </div>
 </div>
-
 </body>
 </html>
