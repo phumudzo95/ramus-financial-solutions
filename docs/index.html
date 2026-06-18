@@ -1,629 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ramus Credit System — Ramus Financial Solutions</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --navy:      #003FBA;
-      --dark-navy: #061A3A;
-      --gold:      #C99A2E;
-      --deep-gold: #A87518;
-      --white:     #FFFFFF;
-      --off-white: #F7F8FC;
-      --border:    #E2E8F0;
-      --text-main: #0D1B2A;
-      --text-muted:#5A6A80;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ramus Credit System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #071B4A;
+    --navy-deep: #050F30;
+    --gold: #D4A017;
+    --gold-deep: #B5860E;
+    --white: #FFFFFF;
+    --mist: #F7F8FA;
+    --line: #E6E9F0;
+    --slate: #5B6478;
+  }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--off-white);
-      color: var(--text-main);
-      min-height: 100vh;
-    }
+  html { -webkit-text-size-adjust: 100%; }
 
-    /* ── HEADER ── */
-    header {
-      background: var(--dark-navy);
-      border-bottom: 3px solid var(--gold);
-      padding: 0 48px;
-      height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.25);
-    }
+  body {
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
 
-    .header-brand {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
+  a { color: inherit; }
 
-    .header-text-group {
-    }
+  /* ── HEADER ─────────────────────────────────────────────────────── */
 
-    .header-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: 0.5px;
-    }
+  header {
+    height: 72px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    border-bottom: 1px solid var(--line);
+  }
 
-    .header-sub {
-      font-size: 10px;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
+  .brand {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: var(--navy);
+    white-space: nowrap;
+  }
 
-    .header-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(201,154,46,0.12);
-      border: 1px solid rgba(201,154,46,0.35);
-      border-radius: 20px;
-      padding: 5px 14px;
-      font-size: 11px;
-      color: var(--gold);
-      font-weight: 500;
-      letter-spacing: 0.5px;
-    }
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
 
-    .header-badge::before {
-      content: '';
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #2ECC71;
-      flex-shrink: 0;
-    }
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate);
+  }
 
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(160deg, var(--dark-navy) 0%, #0A2463 55%, #0D3080 100%);
-      padding: 90px 48px 80px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #1FA86A;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 3px rgba(31,168,106,0.15);
+  }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C99A2E' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
+  .signin-btn {
+    height: 38px;
+    padding: 0 20px;
+    border-radius: 8px;
+    border: 1.5px solid var(--navy);
+    background: var(--white);
+    color: var(--navy);
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    text-decoration: none;
+  }
 
-    .hero-eyebrow {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 18px;
-    }
+  .signin-btn:hover { background: var(--navy); color: var(--white); }
 
-    .hero h1 {
-      font-size: 46px;
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1.15;
-      margin-bottom: 16px;
-      position: relative;
-    }
+  /* ── HERO ───────────────────────────────────────────────────────── */
 
-    .hero h1 span {
-      color: var(--gold);
-    }
+  .hero {
+    text-align: center;
+    padding: 56px 24px 8px;
+  }
 
-    .hero-subtitle {
-      font-size: 17px;
-      color: rgba(255,255,255,0.68);
-      max-width: 520px;
-      margin: 0 auto;
-      line-height: 1.65;
-    }
+  .hero h1 {
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
 
-    .hero-divider {
-      width: 60px;
-      height: 3px;
-      background: var(--gold);
-      margin: 32px auto 0;
-      border-radius: 2px;
-    }
+  .hero p {
+    font-size: 16px;
+    color: var(--slate);
+    font-weight: 500;
+    max-width: 480px;
+    margin: 0 auto;
+  }
 
-    /* ── SECTION WRAPPER ── */
-    .section {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 72px 48px;
-    }
+  /* ── PORTAL SELECTION ───────────────────────────────────────────── */
 
-    .section-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 10px;
-    }
+  .portals {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 40px 24px 24px;
+  }
 
-    .section-title {
-      font-size: 30px;
-      font-weight: 700;
-      color: var(--dark-navy);
-      margin-bottom: 12px;
-    }
+  .portal-grid {
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
 
-    .section-desc {
-      font-size: 15px;
-      color: var(--text-muted);
-      line-height: 1.65;
-      max-width: 560px;
-    }
+  .portal-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    padding: 32px 28px;
+    text-align: left;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+  }
 
-    /* ── PORTAL CARDS ── */
-    .portals-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-      margin-top: 48px;
-    }
+  .portal-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
 
-    .portal-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 36px 32px 32px;
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
+  .portal-card:hover {
+    border-color: var(--navy);
+    box-shadow: 0 16px 40px rgba(7,27,74,0.10);
+    transform: translateY(-3px);
+  }
 
-    .portal-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--navy), var(--gold));
-      opacity: 0;
-      transition: opacity 0.2s ease;
-    }
+  .portal-card:hover::before { transform: scaleX(1); }
 
-    .portal-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 16px 48px rgba(0,63,186,0.12);
-      border-color: rgba(0,63,186,0.2);
-    }
+  .portal-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: var(--mist);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    flex-shrink: 0;
+    transition: background 0.18s;
+  }
 
-    .portal-card:hover::before {
-      opacity: 1;
-    }
+  .portal-card:hover .portal-icon { background: var(--navy); }
 
-    .card-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--dark-navy), var(--navy));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-      font-size: 24px;
-      box-shadow: 0 4px 16px rgba(0,63,186,0.25);
-    }
+  .portal-icon svg { width: 24px; height: 24px; stroke: var(--navy); transition: stroke 0.18s; }
+  .portal-card:hover .portal-icon svg { stroke: var(--white); }
 
-    .card-role {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 8px;
-    }
+  .portal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
 
-    .card-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--dark-navy);
-      margin-bottom: 12px;
-    }
+  .portal-desc {
+    font-size: 13.5px;
+    color: var(--slate);
+    line-height: 1.5;
+    margin-bottom: 24px;
+    flex: 1;
+  }
 
-    .card-desc {
-      font-size: 13.5px;
-      color: var(--text-muted);
-      line-height: 1.65;
-      flex: 1;
-      margin-bottom: 28px;
-    }
+  .portal-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--navy);
+  }
 
-    .card-features {
-      list-style: none;
-      margin-bottom: 28px;
-    }
+  .portal-cta svg {
+    width: 14px; height: 14px;
+    stroke: var(--navy);
+    transition: transform 0.18s;
+  }
 
-    .card-features li {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      padding: 6px 0;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+  .portal-card:hover .portal-cta svg { transform: translateX(3px); }
 
-    .card-features li:last-child {
-      border-bottom: none;
-    }
+  /* ── COMPLIANCE BAR ─────────────────────────────────────────────── */
 
-    .card-features li::before {
-      content: '✓';
-      color: var(--navy);
-      font-weight: 700;
-      font-size: 11px;
-      flex-shrink: 0;
-    }
+  .trust-bar {
+    flex-shrink: 0;
+    background: var(--navy);
+    padding: 18px 24px;
+  }
 
-    .card-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 13px 24px;
-      background: linear-gradient(135deg, var(--dark-navy), var(--navy));
-      color: var(--white);
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
+  .trust-inner {
+    max-width: 1040px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 28px;
+  }
 
-    .card-btn:hover {
-      opacity: 0.9;
-    }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.88);
+    white-space: nowrap;
+  }
 
-    .card-btn .arrow {
-      font-size: 16px;
-      transition: transform 0.2s;
-    }
+  .trust-item svg {
+    width: 14px; height: 14px;
+    stroke: var(--gold);
+    flex-shrink: 0;
+  }
 
-    .portal-card:hover .arrow {
-      transform: translateX(3px);
-    }
+  /* ── RESPONSIVE ─────────────────────────────────────────────────── */
 
-    /* ── TRUST BAR ── */
-    .trust-bar {
-      background: var(--dark-navy);
-      border-top: 1px solid rgba(201,154,46,0.2);
-      border-bottom: 1px solid rgba(201,154,46,0.2);
-      padding: 32px 48px;
-    }
+  @media (max-width: 860px) {
+    .portal-grid { grid-template-columns: 1fr; max-width: 420px; }
+    .hero h1 { font-size: 30px; }
+  }
 
-    .trust-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
+  @media (max-width: 600px) {
+    header { padding: 0 18px; height: 64px; }
+    .brand { font-size: 13.5px; }
+    .status-pill span:not(.status-dot) { display: none; }
+    .signin-btn { height: 34px; padding: 0 16px; font-size: 12.5px; }
 
-    .trust-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 6px;
-    }
+    .hero { padding: 36px 20px 4px; }
+    .hero h1 { font-size: 25px; }
+    .hero p { font-size: 14px; }
 
-    .trust-icon {
-      font-size: 22px;
-      margin-bottom: 2px;
-    }
+    .portals { padding: 28px 18px 20px; }
+    .portal-grid { gap: 14px; }
+    .portal-card { padding: 24px 22px; }
 
-    .trust-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
+    .trust-bar { padding: 16px 18px; }
+    .trust-inner { gap: 16px 18px; }
+    .trust-item { font-size: 11.5px; }
+  }
 
-    .trust-value {
-      font-size: 12px;
-      color: rgba(255,255,255,0.55);
-    }
-
-    /* ── COMPLIANCE BAND ── */
-    .compliance {
-      background: linear-gradient(135deg, #f0f4ff 0%, var(--off-white) 100%);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .compliance-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 40px 48px;
-      display: flex;
-      align-items: center;
-      gap: 48px;
-    }
-
-    .compliance-text h3 {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--dark-navy);
-      margin-bottom: 6px;
-    }
-
-    .compliance-text p {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .compliance-badges {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      flex-shrink: 0;
-    }
-
-    .comp-badge {
-      padding: 7px 16px;
-      background: var(--white);
-      border: 1.5px solid var(--navy);
-      border-radius: 8px;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--navy);
-      letter-spacing: 0.5px;
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--dark-navy);
-      border-top: 3px solid var(--gold);
-      padding: 36px 48px;
-    }
-
-    .footer-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .footer-legal {
-      font-size: 11px;
-      color: rgba(255,255,255,0.4);
-      line-height: 1.6;
-    }
-
-    .footer-legal strong {
-      color: rgba(255,255,255,0.65);
-    }
-
-    @media (max-width: 900px) {
-      .portals-grid { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 32px; }
-      header { padding: 0 24px; }
-      .section { padding: 48px 24px; }
-      .compliance-inner { flex-direction: column; align-items: flex-start; gap: 20px; }
-    }
-
-    @media (max-width: 640px) {
-      header { padding: 0 16px; height: 64px; }
-      .header-text-group { padding-left: 12px; }
-      .header-title { font-size: 13px; }
-      .header-sub { font-size: 9px; }
-      .header-badge { font-size: 0; padding: 0; width: 11px; height: 11px; border-radius: 50%; }
-      .header-badge::before { margin: 0; }
-
-      .hero { padding: 56px 20px 48px; }
-      .hero h1 { font-size: 26px; line-height: 1.25; }
-      .hero-subtitle { font-size: 14.5px; }
-      .hero-eyebrow { font-size: 10px; letter-spacing: 2px; }
-
-      .section { padding: 40px 18px; }
-      .section-title { font-size: 24px; }
-      .section-desc { font-size: 14px; }
-
-      .trust-bar { padding: 24px 18px; }
-      .trust-inner { justify-content: flex-start; gap: 28px 20px; }
-      .trust-item { flex: 1 1 calc(50% - 20px); min-width: 130px; }
-
-      .compliance-inner { padding: 32px 18px; }
-      .compliance-badges { gap: 8px; }
-      .comp-badge { font-size: 10px; padding: 6px 12px; }
-
-      footer { padding: 28px 18px; }
-      .footer-inner { flex-direction: column; align-items: flex-start; gap: 18px; }
-      .footer-legal { font-size: 10.5px; }
-    }
-
-    @media (max-width: 380px) {
-      .trust-item { flex: 1 1 100%; }
-    }
-  </style>
+  @media (max-height: 720px) and (min-width: 601px) {
+    .hero { padding: 40px 24px 6px; }
+    .hero h1 { font-size: 32px; }
+    .portals { padding: 28px 24px 20px; }
+  }
+</style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-brand">
-      <div class="header-text-group">
-        <div class="header-title">Ramus Credit System</div>
-        <div class="header-sub">Secure Staff & Client Portal</div>
-      </div>
+<header>
+  <div class="brand">RAMUS CREDIT SYSTEM</div>
+  <div class="header-right">
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      <span>Systems Operational</span>
     </div>
-    <div class="header-badge">System Operational</div>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-eyebrow">Ramus Financial Solutions — Internal Portal</div>
-    <h1>Ramus Credit System<br /><span>Secure Credit Application &amp; Decisioning Portal</span></h1>
-    <p class="hero-subtitle">
-      A unified platform for clients to apply for credit, staff to process and review applications, and administrators to manage the entire credit lifecycle.
-    </p>
-    <div class="hero-divider"></div>
-  </section>
-
-  <!-- TRUST BAR -->
-  <div class="trust-bar">
-    <div class="trust-inner">
-      <div class="trust-item">
-        <div class="trust-icon">🔒</div>
-        <div class="trust-label">Bank-Grade Security</div>
-        <div class="trust-value">256-bit encryption on all data</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">⚖️</div>
-        <div class="trust-label">NCA Compliant</div>
-        <div class="trust-value">National Credit Act 34 of 2005</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">🛡️</div>
-        <div class="trust-label">POPIA Compliant</div>
-        <div class="trust-value">Personal data protected by law</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">📋</div>
-        <div class="trust-label">NCR Registered</div>
-        <div class="trust-value">Registered credit provider</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-icon">🏆</div>
-        <div class="trust-label">Audit Trail</div>
-        <div class="trust-value">Every action is logged &amp; traceable</div>
-      </div>
-    </div>
+    <a href="client.html" class="signin-btn">Sign In</a>
   </div>
+</header>
 
-  <!-- PORTAL CARDS SECTION -->
-  <div class="section">
-    <div class="section-label">Select Your Portal</div>
-    <h2 class="section-title">Where would you like to go?</h2>
-    <p class="section-desc">Choose the portal that matches your role. Each portal is secured and designed specifically for that user's responsibilities.</p>
+<div class="hero">
+  <h1>Credit Management Portal</h1>
+  <p>Secure credit applications, reviews and approvals.</p>
+</div>
 
-    <div class="portals-grid">
+<div class="portals">
+  <div class="portal-grid">
 
-      <!-- ADMIN -->
-      <div class="portal-card">
-        <div class="card-icon">⚙️</div>
-        <div class="card-role">Management</div>
-        <div class="card-title">Admin Dashboard</div>
-        <p class="card-desc">
-          The central management hub for administrators. Monitor all credit applications, manage staff accounts, configure decisioning rules, and review compliance audit logs.
-        </p>
-        <ul class="card-features">
-          <li>Full application pipeline overview</li>
-          <li>Staff account management</li>
-          <li>Decisioning rule configuration</li>
-          <li>Compliance &amp; audit logs</li>
-          <li>System-wide reporting</li>
-        </ul>
-        <a href="admin.html" class="card-btn">
-          Open Admin Dashboard <span class="arrow">→</span>
-        </a>
+    <a href="client.html" class="portal-card">
+      <div class="portal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
+      <div class="portal-title">Client Portal</div>
+      <div class="portal-desc">Apply for credit and track applications</div>
+      <div class="portal-cta">Continue <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    </a>
 
-      <!-- WORKER -->
-      <div class="portal-card">
-        <div class="card-icon">👤</div>
-        <div class="card-role">Credit Staff</div>
-        <div class="card-title">Worker Dashboard</div>
-        <p class="card-desc">
-          The day-to-day workspace for credit assessors and analysts. View your assigned applications, verify documents, review credit bureau data, and submit your decisions.
-        </p>
-        <ul class="card-features">
-          <li>My assigned application queue</li>
-          <li>Document verification tools</li>
-          <li>Credit bureau data review</li>
-          <li>Internal notes &amp; communication</li>
-          <li>Submit recommendations</li>
-        </ul>
-        <a href="worker.html" class="card-btn">
-          Open Worker Dashboard <span class="arrow">→</span>
-        </a>
+    <a href="worker.html" class="portal-card">
+      <div class="portal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
       </div>
+      <div class="portal-title">Staff Portal</div>
+      <div class="portal-desc">Review and process applications</div>
+      <div class="portal-cta">Continue <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    </a>
 
-      <!-- CLIENT -->
-      <div class="portal-card">
-        <div class="card-icon">🏦</div>
-        <div class="card-role">Loan Applicants</div>
-        <div class="card-title">Client Portal</div>
-        <p class="card-desc">
-          The self-service portal for loan applicants. Apply for credit, upload your required documents, track the status of your application, and view your outcome — all in one place.
-        </p>
-        <ul class="card-features">
-          <li>Apply for a cash loan online</li>
-          <li>Upload your documents securely</li>
-          <li>Track your application status</li>
-          <li>View loan decision &amp; terms</li>
-          <li>Contact our support team</li>
-        </ul>
-        <a href="client.html" class="card-btn">
-          Open Client Portal <span class="arrow">→</span>
-        </a>
+    <a href="admin.html" class="portal-card">
+      <div class="portal-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </div>
+      <div class="portal-title">Admin Portal</div>
+      <div class="portal-desc">Manage users, reports and operations</div>
+      <div class="portal-cta">Continue <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    </a>
 
-    </div>
   </div>
+</div>
 
-  <!-- COMPLIANCE BAND -->
-  <div class="compliance">
-    <div class="compliance-inner">
-      <div class="compliance-text">
-        <h3>Regulatory Compliance</h3>
-        <p>Ramus Financial Solutions is a registered credit provider operating in full compliance with South African financial legislation. All applications are processed transparently and fairly in accordance with the law.</p>
-      </div>
-      <div class="compliance-badges">
-        <div class="comp-badge">NCA</div>
-        <div class="comp-badge">NCR</div>
-        <div class="comp-badge">POPIA</div>
-        <div class="comp-badge">FICA</div>
-      </div>
-    </div>
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>NCR Registered</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>POPIA Compliant</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Bank-Grade Security</div>
+    <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Audit Logging</div>
   </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-legal">
-        <strong>Ramus Financial Solutions</strong> — Registered Credit Provider<br />
-        NCR Registration: NCRCP19178 &nbsp;|&nbsp; 17 Robert Bruce Road, Beverley Hills Estate, Sandton, 2191<br />
-        Subject to the National Credit Act 34 of 2005 &nbsp;|&nbsp; &copy; 2026 Ramus Financial Solutions. All rights reserved.
-      </div>
-    </div>
-  </footer>
+</div>
 
 </body>
 </html>
