@@ -1,484 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Admin Dashboard — Ramus Financial Solutions</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Administration — Ramus Financial Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-:root{--navy:#071B4A;--navy2:#0A2563;--gold:#C9A028;--gold2:#A87820;--white:#FFFFFF;--surface:#F7F8FB;--border:#E2E8F0;--muted:#64748B;--text:#0F172A;--green:#15803D;--red:#B91C1C;--amber:#B45309}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',-apple-system,'Segoe UI',sans-serif;background:var(--surface);color:var(--text);height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;overflow:hidden}
+:root {
+  --navy:    #0B1F4B;
+  --navy2:   #122459;
+  --gold:    #B8912A;
+  --gold2:   #9A7820;
+  --white:   #FFFFFF;
+  --surface: #F8F9FC;
+  --surface2:#F1F4F9;
+  --border:  #E4E8EF;
+  --border2: #D0D7E3;
+  --muted:   #64748B;
+  --muted2:  #94A3B8;
+  --text:    #0D1421;
+  --green:   #166534;
+  --green-bg:#DCFCE7;
+  --red:     #991B1B;
+  --red-bg:  #FEE2E2;
+  --amber:   #92400E;
+  --amber-bg:#FEF3C7;
+  --blue:    #1E40AF;
+  --blue-bg: #DBEAFE;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+
+/* TYPOGRAPHY SCALE */
+.t-display { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; color: var(--navy); }
+.t-title    { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; color: var(--navy); }
+.t-heading  { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; color: var(--navy); }
+.t-label    { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.t-body     { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.t-small    { font-size: 12px; color: var(--muted); }
+.t-mono     { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12.5px; font-weight: 600; letter-spacing: 0.02em; }
 
 /* HEADER */
-header{height:60px;background:var(--navy);border-bottom:2px solid var(--gold);display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0;z-index:100}
-.hdr-toggle{width:34px;height:34px;border-radius:7px;border:1px solid rgba(255,255,255,0.15);background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;display:none}
-.hdr-toggle span{display:block;width:16px;height:2px;background:var(--white);border-radius:2px}
-.hdr-brand{font-size:14px;font-weight:800;letter-spacing:0.04em;color:var(--white)}
-.hdr-brand span{color:var(--gold)}
-.hdr-right{margin-left:auto;display:flex;align-items:center;gap:14px}
-.hdr-status{font-size:11.5px;font-weight:600;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:6px}
-.hdr-status-dot{width:6px;height:6px;border-radius:50%;background:#22C55E}
-.back-link{font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);text-decoration:none;transition:color 0.15s}
-.back-link:hover{color:var(--white)}
-.hdr-avatar{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center}
+header {
+  height: 58px;
+  background: var(--navy);
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.brand {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--white);
+  white-space: nowrap;
+}
+.brand-accent { color: var(--gold); }
+.hdr-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.12); flex-shrink: 0; }
+.hdr-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.hdr-link { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); transition: color 0.15s; white-space: nowrap; }
+.hdr-link:hover { color: rgba(255,255,255,0.9); }
+.hdr-badge { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; color: rgba(255,255,255,0.35); display: none; }
+.avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: var(--white); font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; letter-spacing: 0.02em; }
+.hdr-toggle { width: 32px; height: 32px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.15); background: transparent; cursor: pointer; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 0; }
+.hdr-toggle span { display: block; width: 14px; height: 1.5px; background: rgba(255,255,255,0.8); border-radius: 2px; }
 
-/* LAYOUT */
-.layout{display:flex;flex:1;overflow:hidden}
-.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:150}
-.sidebar-backdrop.open{display:block}
-
-/* SIDEBAR */
-aside{width:220px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;z-index:200}
-.sidebar-section{padding:16px 12px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted)}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:7px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;width:100%;text-align:left;margin-bottom:1px;transition:background 0.15s,color 0.15s}
-.nav-item:hover{background:var(--surface);color:var(--navy)}
-.nav-item.active{background:var(--surface);color:var(--navy);font-weight:700}
-.nav-item svg{width:16px;height:16px;stroke:currentColor;flex-shrink:0}
-.nav-badge{margin-left:auto;background:#EF4444;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px}
-
-/* MAIN */
-main{flex:1;overflow-y:auto;padding:24px}
-
-/* PAGE */
-.page{display:none}.page.active{display:block}
-.page-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.page-title{font-size:19px;font-weight:800;color:var(--navy)}
-.page-sub{font-size:13px;color:var(--muted);margin-top:2px}
-
-/* STAT GRID */
-.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.stat-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px 18px 16px}
-.stat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:6px}
-.stat-val{font-size:26px;font-weight:800;color:var(--navy);line-height:1}
-.stat-delta{font-size:11.5px;font-weight:600;color:var(--green);margin-top:5px}
-
-/* CARD BOX */
-.card-box{background:var(--white);border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden}
-.card-box-hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--border);gap:12px;flex-wrap:wrap}
-.card-box-title{font-size:14px;font-weight:700;color:var(--navy)}
-.hdr-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-
-/* TABLE */
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:11px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);border-bottom:1px solid var(--border);background:var(--surface);white-space:nowrap}
-td{padding:12px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
-tr:last-child td{border-bottom:none}
-.mono{font-family:monospace;font-size:12px;font-weight:600}
-
-/* BADGES */
-.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap}
-.badge-green{background:#DCFCE7;color:var(--green)}
-.badge-red{background:#FEE2E2;color:var(--red)}
-.badge-amber{background:#FEF3C7;color:var(--amber)}
-.badge-blue{background:#DBEAFE;color:#1D4ED8}
-.badge-gray{background:#F1F5F9;color:var(--muted)}
-
-/* BUTTONS */
-.btn-primary{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 16px;background:var(--navy);color:var(--white);border:none;border-radius:7px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background 0.15s}
-.btn-primary:hover{background:var(--navy2)}
-.btn-outline{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;background:var(--white);color:var(--text);border:1.5px solid var(--border);border-radius:7px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:border-color 0.15s,color 0.15s}
-.btn-outline:hover{border-color:var(--navy);color:var(--navy)}
-.btn-sm{display:inline-flex;align-items:center;height:30px;padding:0 12px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:background 0.15s}
-.btn-sm:hover{background:var(--border)}
-.btn-danger{border-color:#FCA5A5;color:var(--red)}
-.btn-danger:hover{background:#FEE2E2;border-color:var(--red)}
-button svg{width:13px;height:13px;stroke:currentColor}
+/* CARDS */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.card + .card { margin-top: 14px; }
+.card-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.card-title { font-size: 14px; font-weight: 700; color: var(--navy); letter-spacing: -0.01em; }
+.card-sub { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
 
 /* INPUTS */
-.form-field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
-.form-label{font-size:12.5px;font-weight:600;color:var(--text)}
-.form-input{height:40px;border:1.5px solid var(--border);border-radius:7px;padding:0 12px;font-family:inherit;font-size:13.5px;color:var(--text);background:var(--white);width:100%;transition:border-color 0.15s}
-.form-input:focus{outline:none;border-color:var(--navy)}
-.search-input{height:34px;border:1px solid var(--border);border-radius:6px;padding:0 10px;font-family:inherit;font-size:13px;background:var(--surface);color:var(--text);width:200px}
-.search-input:focus{outline:none;border-color:var(--navy)}
-.filter-select{height:34px;border:1px solid var(--border);border-radius:6px;padding:0 8px;font-family:inherit;font-size:13px;background:var(--white);color:var(--text);cursor:pointer}
+.field { display: flex; flex-direction: column; gap: 6px; }
+.label { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.01em; }
+.input {
+  height: 42px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+  outline: none;
+}
+.input:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(11,31,75,0.08); }
+.input::placeholder { color: var(--muted2); }
+.select {
+  height: 42px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--white);
+  cursor: pointer;
+  width: 100%;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  transition: border-color 0.15s;
+}
+.select:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(11,31,75,0.08); }
 
-/* USER AVATAR */
-.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--navy);color:var(--white);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; font-weight: 700; cursor: pointer; border-radius: 7px; transition: all 0.15s; white-space: nowrap; border: none; }
+.btn svg { width: 14px; height: 14px; stroke: currentColor; flex-shrink: 0; }
+.btn-md { height: 40px; padding: 0 18px; font-size: 13.5px; }
+.btn-sm { height: 34px; padding: 0 14px; font-size: 12.5px; }
+.btn-xs { height: 28px; padding: 0 10px; font-size: 11.5px; }
 
-/* REPORT CARDS */
-.report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.report-card{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:border-color 0.18s,box-shadow 0.18s}
-.report-card:hover{border-color:var(--navy);box-shadow:0 4px 16px rgba(7,27,74,0.07)}
-.rc-icon{width:38px;height:38px;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-.rc-icon svg{width:18px;height:18px;stroke:var(--navy)}
-.rc-title{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:4px}
-.rc-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px}
-.rc-btn{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:var(--navy)}
-.rc-btn svg{width:12px;height:12px;stroke:var(--navy)}
+.btn-primary { background: var(--navy); color: var(--white); }
+.btn-primary:hover { background: var(--navy2); }
+.btn-gold { background: var(--gold); color: var(--white); }
+.btn-gold:hover { background: var(--gold2); }
+.btn-outline { background: var(--white); color: var(--text); border: 1.5px solid var(--border); }
+.btn-outline:hover { border-color: var(--navy); color: var(--navy); }
+.btn-ghost { background: transparent; color: var(--muted); border: none; }
+.btn-ghost:hover { background: var(--surface); color: var(--navy); }
+.btn-danger-outline { background: var(--white); color: var(--red); border: 1.5px solid var(--red-bg); }
+.btn-danger-outline:hover { background: var(--red-bg); }
+.btn-approve { background: var(--green); color: var(--white); }
+.btn-approve:hover { opacity: 0.9; }
+.btn-decline { background: var(--red); color: var(--white); }
+.btn-decline:hover { opacity: 0.9; }
+.btn-escalate { background: var(--amber-bg); color: var(--amber); border: 1.5px solid rgba(146,64,14,0.2); }
+.btn-escalate:hover { background: #FDE68A; }
 
-/* MODALS */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:14px;padding:28px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
-.modal.modal-wide{max-width:700px;max-height:85vh;overflow-y:auto}
-.modal h3{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
-.modal-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:2px}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
-.report-section{margin-bottom:20px}
-.report-section h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:10px}
-.report-kpi-row{display:flex;gap:12px;flex-wrap:wrap}
-.report-kpi{flex:1;min-width:100px;background:var(--surface);border-radius:8px;padding:14px}
-.k-val{font-size:22px;font-weight:800;color:var(--navy)}
-.k-label{font-size:11px;color:var(--muted);margin-top:2px}
-.report-table{width:100%;border-collapse:collapse;font-size:13px}
-.report-table th{text-align:left;padding:8px 10px;background:var(--surface);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);border-bottom:1px solid var(--border)}
-.report-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
-.report-note{font-size:12px;color:var(--amber);background:#FFFBEB;border:1px solid #FDE68A;border-radius:7px;padding:10px 12px;line-height:1.6}
-.report-meta{font-size:11.5px;color:var(--muted);margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)}
-.two-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+/* BADGES */
+.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; white-space: nowrap; }
+.badge-green  { background: var(--green-bg);  color: var(--green);  }
+.badge-red    { background: var(--red-bg);    color: var(--red);    }
+.badge-amber  { background: var(--amber-bg);  color: var(--amber);  }
+.badge-blue   { background: var(--blue-bg);   color: var(--blue);   }
+.badge-gray   { background: var(--surface2);  color: var(--muted);  }
+.badge-navy   { background: var(--navy);      color: var(--white);  }
 
-/* AUDIT LOG */
-.audit-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
-.audit-row:last-child{border-bottom:none}
-.audit-icon{width:30px;height:30px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.audit-icon svg{width:13px;height:13px;stroke:var(--muted)}
-.audit-action{font-size:13px;font-weight:600;color:var(--text)}
-.audit-detail{font-size:12px;color:var(--muted)}
-.audit-time{font-size:11.5px;color:var(--muted);margin-left:auto;white-space:nowrap;flex-shrink:0}
+/* TABLES */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--surface); border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 13px 16px; border-bottom: 1px solid var(--border); font-size: 13.5px; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface); }
 
-/* RULES TABLE */
-.rule-priority{display:flex;gap:2px}
-.priority-dot{width:6px;height:6px;border-radius:50%;background:var(--border)}
-.priority-dot.filled{background:var(--navy)}
+/* STAT CARD */
+.stat-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.stat-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.stat-val { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; color: var(--navy); line-height: 1; }
+.stat-note { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* MODAL */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(11,31,75,0.35); backdrop-filter: blur(2px); z-index: 500; align-items: center; justify-content: center; padding: 24px; }
+.overlay.open { display: flex; }
+.modal { background: var(--white); border-radius: 12px; padding: 28px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.18); }
+.modal-lg { max-width: 680px; max-height: 85vh; overflow-y: auto; }
+.modal-hdr { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.modal-title { font-size: 16px; font-weight: 700; color: var(--navy); letter-spacing: -0.01em; }
+.modal-close { width: 28px; height: 28px; border-radius: 6px; border: none; background: var(--surface); color: var(--muted); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+.modal-close:hover { background: var(--surface2); }
+.modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+
+/* DIVIDER */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* KPI ROW */
+.kpi-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.kpi { flex: 1; min-width: 110px; background: var(--surface); border-radius: 8px; padding: 14px; }
+.kpi-val { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; color: var(--navy); }
+.kpi-label { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+/* REPORT */
+.report-section { margin-bottom: 22px; }
+.report-section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.report-table { width: 100%; border-collapse: collapse; }
+.report-table th { text-align: left; padding: 8px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); border-bottom: 1px solid var(--border); background: var(--surface); }
+.report-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
+.info-note { background: var(--amber-bg); border-left: 3px solid var(--gold); border-radius: 6px; padding: 10px 14px; font-size: 12.5px; color: var(--amber); line-height: 1.6; }
+
+/* NAV TABS */
+.tabs { background: var(--white); border-bottom: 1px solid var(--border); display: flex; padding: 0 24px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { height: 46px; padding: 0 16px; border: none; background: transparent; font-family: inherit; font-size: 13.5px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
+.tab:hover { color: var(--navy); }
+.tab.active { color: var(--navy); font-weight: 700; border-bottom-color: var(--navy); }
+
+/* ALERT / CONFIRM */
+.alert { border-radius: 8px; padding: 12px 16px; font-size: 13px; font-weight: 500; line-height: 1.5; }
+.alert-green { background: var(--green-bg); color: var(--green); }
+.alert-red   { background: var(--red-bg);   color: var(--red);   }
+.alert-amber { background: var(--amber-bg); color: var(--amber); }
+.alert-blue  { background: var(--blue-bg);  color: var(--blue);  }
+
+/* GRID HELPERS */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.gap-sm { gap: 10px; }
+
+/* SIDEBAR */
+.sidebar { width: 220px; background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction:column; flex-shrink: 0; overflow-y: auto; }
+.sidebar-section-label { padding: 18px 16px 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted2); }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; margin: 0 6px; border-radius: 7px; font-size: 13.5px; font-weight: 500; color: var(--muted); cursor: pointer; border: none; background: transparent; width: calc(100% - 12px); text-align: left; transition: background 0.12s, color 0.12s; }
+.nav-item:hover { background: var(--surface); color: var(--navy); }
+.nav-item.active { background: var(--surface); color: var(--navy); font-weight: 700; }
+.nav-item svg { width: 15px; height: 15px; stroke: currentColor; flex-shrink: 0; }
+.nav-count { margin-left: auto; background: var(--red); color: var(--white); font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
+
+/* SCORE BAR */
+.score-bar-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.score-bar-fill  { height: 100%; border-radius: 3px; }
+
+/* FOOTER */
+footer { background: var(--navy); padding: 16px 24px; text-align: center; }
+footer p { font-size: 11.5px; color: rgba(255,255,255,0.35); line-height: 1.7; }
+footer strong { color: rgba(255,255,255,0.6); }
 
 /* RESPONSIVE */
-@media(max-width:900px){
-  .stat-grid{grid-template-columns:1fr 1fr}
-  .two-grid{grid-template-columns:1fr}
-  .report-grid{grid-template-columns:1fr 1fr}
-  .hdr-toggle{display:flex}
-  aside{position:fixed;left:0;top:0;height:100vh;transform:translateX(-100%);transition:transform 0.2s;box-shadow:4px 0 20px rgba(0,0,0,0.15)}
-  aside.open{transform:translateX(0)}
-  .hdr-status{display:none}
+@media (max-width:900px) {
+  .sidebar { position: fixed; left: 0; top: 0; height: 100vh; transform: translateX(-100%); transition: transform 0.22s; box-shadow: 4px 0 24px rgba(0,0,0,0.12); z-index: 200; }
+  .sidebar.open { transform: translateX(0); }
+  .hdr-toggle { display: flex; }
+  .g4 { grid-template-columns: 1fr 1fr; }
 }
-@media(max-width:600px){
-  main{padding:16px}
-  .stat-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .stat-val{font-size:22px}
-  .report-grid{grid-template-columns:1fr}
-  .card-box{overflow-x:auto}
-  table{min-width:560px}
-  .modal{padding:20px}
-  .search-input{width:140px}
+@media (max-width:640px) {
+  header { padding: 0 16px; height: 54px; }
+  .brand { font-size: 12.5px; }
+  .hdr-badge { display: none; }
+  .hdr-sep { display: none; }
+  .g2, .g3 { grid-template-columns: 1fr; }
+  .g4 { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .card { padding: 18px; }
+  .stat-val { font-size: 26px; }
+  .tabs { padding: 0 16px; }
 }
+
+
+body { height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--surface); }
+.layout { display: flex; flex: 1; overflow: hidden; }
+main { flex: 1; overflow-y: auto; padding: 28px 24px; }
+.backdrop { display: none; position: fixed; inset: 0; background: rgba(11,31,75,0.3); z-index: 150; }
+.backdrop.open { display: block; }
+.page { display: none; } .page.active { display: block; }
+.page-hdr { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.page-hdr h2 { font-size: 20px; font-weight: 800; color: var(--navy); letter-spacing: -0.02em; }
+.page-hdr p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 22px; }
+.box { background: var(--white); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); margin-bottom: 16px; }
+.box-hdr { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+.box-title { font-size: 14px; font-weight: 700; color: var(--navy); }
+.search { height: 34px; border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-family: inherit; font-size: 13px; background: var(--surface); color: var(--text); width: 180px; outline: none; }
+.search:focus { border-color: var(--navy); }
+.filter { height: 34px; border: 1px solid var(--border); border-radius: 6px; padding: 0 28px 0 10px; font-family: inherit; font-size: 13px; background: var(--white); color: var(--text); cursor: pointer; outline: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 8px center; }
+.av { width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: var(--white); font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.av-gold { background: var(--gold); }
+.report-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.rc { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 22px; cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.rc:hover { border-color: var(--border2); box-shadow: 0 6px 20px rgba(11,31,75,0.08); }
+.rc-icon { width: 38px; height: 38px; border-radius: 8px; background: var(--surface); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.rc-icon svg { width: 17px; height: 17px; stroke: var(--navy); }
+.rc-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+.rc-desc { font-size: 12.5px; color: var(--muted); line-height: 1.55; margin-bottom: 14px; }
+.rc-cta { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 700; color: var(--navy); }
+.rc-cta svg { width: 12px; height: 12px; stroke: var(--navy); transition: transform 0.15s; }
+.rc:hover .rc-cta svg { transform: translateX(2px); }
+.dots { display: flex; gap: 3px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); }
+.dot.on { background: var(--navy); }
+.audit-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); }
+.audit-row:last-child { border-bottom: none; }
+.audit-ic { width: 28px; height: 28px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.audit-ic svg { width: 12px; height: 12px; stroke: var(--muted); }
+.audit-action { font-size: 13px; font-weight: 600; color: var(--text); }
+.audit-detail { font-size: 12px; color: var(--muted); }
+.audit-time { font-size: 11.5px; color: var(--muted2); margin-left: auto; white-space: nowrap; flex-shrink: 0; }
+@media(max-width:900px){.stat-grid{grid-template-columns:1fr 1fr}.report-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){main{padding:18px 16px}.stat-grid{grid-template-columns:1fr 1fr;gap:10px}.report-grid{grid-template-columns:1fr}.box{overflow-x:auto}table{min-width:540px}.search{width:130px}}
 </style>
 </head>
 <body>
 <header>
   <button class="hdr-toggle" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
-  <div class="hdr-brand">RAMUS <span>FINANCIAL SOLUTIONS</span></div>
+  <div class="brand">RAMUS <span class="brand-accent">FINANCIAL SOLUTIONS</span></div>
   <div class="hdr-right">
-    <div class="hdr-status"><span class="hdr-status-dot"></span>All Systems Normal</div>
-    <a href="index.html" class="back-link">Portal</a>
-    <div class="hdr-avatar">A</div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:rgba(255,255,255,0.45)"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;display:inline-block"></span>All Systems Normal</div>
+    <a href="index.html" class="hdr-link">Portal</a>
+    <div class="avatar">A</div>
   </div>
 </header>
-
-<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
-
+<div class="backdrop" id="backdrop" onclick="closeSidebar()"></div>
 <div class="layout">
-<aside id="sidebar">
-  <div style="padding:14px 12px 8px">
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:10px">Main</div>
-    <button class="nav-item active" onclick="showPage('dashboard',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-      Dashboard
-    </button>
-    <button class="nav-item" onclick="showPage('applications',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      Applications <span class="nav-badge">35</span>
-    </button>
-    <button class="nav-item" onclick="showPage('users',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      Staff Accounts
-    </button>
-    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin:14px 0 8px">System</div>
-    <button class="nav-item" onclick="showPage('reports',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-      Reports
-    </button>
-    <button class="nav-item" onclick="showPage('rules',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Decision Rules
-    </button>
-    <button class="nav-item" onclick="showPage('audit',this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      Audit Logs
-    </button>
+<aside class="sidebar" id="sidebar">
+  <div style="padding:14px 8px 10px">
+    <div class="sidebar-section-label">Main</div>
+    <button class="nav-item active" onclick="showPage('dashboard',this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</button>
+    <button class="nav-item" onclick="showPage('applications',this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Applications <span class="nav-count">35</span></button>
+    <button class="nav-item" onclick="showPage('staff',this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Staff Accounts</button>
+    <div class="sidebar-section-label">System</div>
+    <button class="nav-item" onclick="showPage('reports',this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Reports</button>
+    <button class="nav-item" onclick="showPage('rules',this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Decision Rules</button>
+    <button class="nav-item" onclick="showPage('audit',this)"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Audit Log</button>
   </div>
 </aside>
-
 <main>
 
-<!-- DASHBOARD -->
 <div id="page-dashboard" class="page active">
-  <div class="page-hdr">
-    <div><div class="page-title">Dashboard</div><div class="page-sub">Overview for June 2026</div></div>
-  </div>
+  <div class="page-hdr"><div><h2>Dashboard</h2><p>Overview for June 2026</p></div></div>
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-label">Total Applications</div><div class="stat-val">310</div><div class="stat-delta">+12% this month</div></div>
-    <div class="stat-card"><div class="stat-label">Pending Review</div><div class="stat-val">35</div><div class="stat-delta" style="color:var(--amber)">Requires attention</div></div>
-    <div class="stat-card"><div class="stat-label">Approved</div><div class="stat-val">143</div><div class="stat-delta">46% approval rate</div></div>
-    <div class="stat-card"><div class="stat-label">Declined</div><div class="stat-val">31</div><div class="stat-delta" style="color:var(--muted)">10% decline rate</div></div>
+    <div class="stat-card"><div class="stat-label">Total Applications</div><div class="stat-val">310</div><div class="stat-note" style="color:var(--green)">+12% this month</div></div>
+    <div class="stat-card"><div class="stat-label">Pending Review</div><div class="stat-val" style="color:var(--amber)">35</div><div class="stat-note">Requires attention</div></div>
+    <div class="stat-card"><div class="stat-label">Approved</div><div class="stat-val" style="color:var(--green)">143</div><div class="stat-note">46% approval rate</div></div>
+    <div class="stat-card"><div class="stat-label">Declined</div><div class="stat-val">31</div><div class="stat-note">10% decline rate</div></div>
   </div>
-  <div class="two-grid">
-    <div class="card-box">
-      <div class="card-box-hdr"><div class="card-box-title">Recent Applications</div><button class="btn-sm" onclick="showPage('applications',document.querySelectorAll('.nav-item')[1])">View All</button></div>
-      <table>
-        <thead><tr><th>Reference</th><th>Applicant</th><th>Amount</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td class="mono">RCL-X7K29MQA</td><td>T. Mokoena</td><td>R 4,500</td><td><span class="badge badge-amber">Manual Review</span></td></tr>
-          <tr><td class="mono">RCL-B4R72NWP</td><td>N. van der Berg</td><td>R 2,500</td><td><span class="badge badge-blue">Under Review</span></td></tr>
-          <tr><td class="mono">RCL-M3W88VXC</td><td>A. Botha</td><td>R 3,000</td><td><span class="badge badge-green">Approved</span></td></tr>
-          <tr><td class="mono">RCL-Q1Y44KDR</td><td>F. Mahlangu</td><td>R 5,000</td><td><span class="badge badge-red">Declined</span></td></tr>
-        </tbody>
-      </table>
+  <div class="g2">
+    <div class="box">
+      <div class="box-hdr"><span class="box-title">Recent Applications</span><button class="btn btn-xs btn-ghost" onclick="showPage('applications',document.querySelectorAll('.nav-item')[1])">View all</button></div>
+      <table><thead><tr><th>Reference</th><th>Applicant</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+        <tr><td class="t-mono">RCL-X7K29MQA</td><td style="font-weight:600">T. Mokoena</td><td>R 4,500</td><td><span class="badge badge-amber">Manual Review</span></td></tr>
+        <tr><td class="t-mono">RCL-B4R72NWP</td><td style="font-weight:600">N. van der Berg</td><td>R 2,500</td><td><span class="badge badge-blue">Under Review</span></td></tr>
+        <tr><td class="t-mono">RCL-M3W88VXC</td><td style="font-weight:600">A. Botha</td><td>R 3,000</td><td><span class="badge badge-green">Approved</span></td></tr>
+        <tr><td class="t-mono">RCL-Q1Y44KDR</td><td style="font-weight:600">F. Mahlangu</td><td>R 5,000</td><td><span class="badge badge-red">Declined</span></td></tr>
+      </tbody></table>
     </div>
-    <div class="card-box">
-      <div class="card-box-hdr"><div class="card-box-title">Audit Log</div></div>
-      <div style="padding:14px 18px">
-        <div class="audit-row">
-          <div class="audit-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
-          <div><div class="audit-action">Application approved</div><div class="audit-detail">RCL-M3W88VXC &middot; S. Dlamini</div></div>
-          <div class="audit-time">09:31</div>
-        </div>
-        <div class="audit-row">
-          <div class="audit-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
-          <div><div class="audit-action">Escalated for review</div><div class="audit-detail">RCL-X7K29MQA &middot; K. Naidoo</div></div>
-          <div class="audit-time">09:14</div>
-        </div>
-        <div class="audit-row">
-          <div class="audit-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-          <div><div class="audit-action">New application submitted</div><div class="audit-detail">RCL-H9T56LSE &middot; P. Sithole</div></div>
-          <div class="audit-time">08:57</div>
-        </div>
-      </div>
+    <div class="box">
+      <div class="box-hdr"><span class="box-title">Recent Activity</span></div>
+      <div class="audit-row"><div class="audit-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div><div class="audit-action">Application approved</div><div class="audit-detail">RCL-M3W88VXC &middot; S. Dlamini</div></div><div class="audit-time">09:31</div></div>
+      <div class="audit-row"><div class="audit-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div><div class="audit-action">Escalated for review</div><div class="audit-detail">RCL-X7K29MQA &middot; K. Naidoo</div></div><div class="audit-time">09:14</div></div>
+      <div class="audit-row"><div class="audit-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="audit-action">New application received</div><div class="audit-detail">RCL-H9T56LSE &middot; P. Sithole</div></div><div class="audit-time">08:57</div></div>
     </div>
   </div>
 </div>
 
-<!-- APPLICATIONS -->
 <div id="page-applications" class="page">
-  <div class="page-hdr">
-    <div><div class="page-title">Applications</div><div class="page-sub">310 total applications</div></div>
-    <div class="hdr-actions">
-      <input class="search-input" placeholder="Search..." id="app-search" oninput="filterApplications()" />
-      <select class="filter-select" id="app-status-filter" onchange="filterApplications()">
-        <option>All Statuses</option>
-        <option>Submitted</option><option>Under Review</option><option>Manual Review</option>
-        <option>Approved</option><option>Declined</option>
-      </select>
-      <button class="btn-outline" onclick="exportTableToCsv(this,'ramus_applications.csv')">Export CSV</button>
-    </div>
-  </div>
-  <div class="card-box">
-    <table id="app-table">
-      <thead><tr><th>Reference</th><th>Applicant</th><th>ID</th><th>Amount</th><th>Status</th><th>Score</th><th>Assigned</th><th>Submitted</th><th></th></tr></thead>
-      <tbody>
-        <tr><td class="mono">RCL-X7K29MQA</td><td style="font-weight:600">T. Mokoena</td><td style="font-family:monospace;font-size:12px;color:var(--muted)">87****4028</td><td>R 4,500</td><td><span class="badge badge-amber">Manual Review</span></td><td style="font-weight:700;color:var(--amber)">612</td><td>S. Dlamini</td><td style="color:var(--muted);font-size:12px">11 Jun 2026</td><td><button class="btn-sm" onclick="viewApplication('RCL-X7K29MQA','T. Mokoena','87****4028','R 4,500','Manual Review','612','S. Dlamini','11 Jun 2026')">View</button></td></tr>
-        <tr><td class="mono">RCL-B4R72NWP</td><td style="font-weight:600">N. van der Berg</td><td style="font-family:monospace;font-size:12px;color:var(--muted)">91****1083</td><td>R 2,500</td><td><span class="badge badge-blue">Under Review</span></td><td style="font-weight:700;color:var(--green)">741</td><td>K. Naidoo</td><td style="color:var(--muted);font-size:12px">10 Jun 2026</td><td><button class="btn-sm" onclick="viewApplication('RCL-B4R72NWP','N. van der Berg','91****1083','R 2,500','Under Review','741','K. Naidoo','10 Jun 2026')">View</button></td></tr>
-        <tr><td class="mono">RCL-H9T56LSE</td><td style="font-weight:600">P. Sithole</td><td style="font-family:monospace;font-size:12px;color:var(--muted)">94****5576</td><td>R 4,800</td><td><span class="badge badge-blue">Submitted</span></td><td style="color:var(--muted);font-size:12px">Pending</td><td>—</td><td style="color:var(--muted);font-size:12px">11 Jun 2026</td><td><button class="btn-sm" onclick="viewApplication('RCL-H9T56LSE','P. Sithole','94****5576','R 4,800','Submitted','Pending','—','11 Jun 2026')">View</button></td></tr>
-        <tr><td class="mono">RCL-M3W88VXC</td><td style="font-weight:600">A. Botha</td><td style="font-family:monospace;font-size:12px;color:var(--muted)">78****2291</td><td>R 3,000</td><td><span class="badge badge-green">Approved</span></td><td style="font-weight:700;color:var(--green)">788</td><td>S. Dlamini</td><td style="color:var(--muted);font-size:12px">09 Jun 2026</td><td><button class="btn-sm" onclick="viewApplication('RCL-M3W88VXC','A. Botha','78****2291','R 3,000','Approved','788','S. Dlamini','09 Jun 2026')">View</button></td></tr>
-        <tr><td class="mono">RCL-Q1Y44KDR</td><td style="font-weight:600">F. Mahlangu</td><td style="font-family:monospace;font-size:12px;color:var(--muted)">02****7834</td><td>R 5,000</td><td><span class="badge badge-red">Declined</span></td><td style="font-weight:700;color:var(--red)">389</td><td>K. Naidoo</td><td style="color:var(--muted);font-size:12px">08 Jun 2026</td><td><button class="btn-sm" onclick="viewApplication('RCL-Q1Y44KDR','F. Mahlangu','02****7834','R 5,000','Declined','389','K. Naidoo','08 Jun 2026')">View</button></td></tr>
-        <tr><td class="mono">RCL-D7R21PLB</td><td style="font-weight:600">M. Khumalo</td><td style="font-family:monospace;font-size:12px;color:var(--muted)">85****0047</td><td>R 3,500</td><td><span class="badge badge-blue">Under Review</span></td><td style="font-weight:700;color:var(--amber)">558</td><td>S. Dlamini</td><td style="color:var(--muted);font-size:12px">07 Jun 2026</td><td><button class="btn-sm" onclick="viewApplication('RCL-D7R21PLB','M. Khumalo','85****0047','R 3,500','Under Review','558','S. Dlamini','07 Jun 2026')">View</button></td></tr>
-        <tr><td class="mono">RCL-T2K99WZR</td><td style="font-weight:600">L. Pietersen</td><td style="font-family:monospace;font-size:12px;color:var(--muted)">99****3312</td><td>R 1,500</td><td><span class="badge badge-green">Approved</span></td><td style="font-weight:700;color:var(--green)">720</td><td>K. Naidoo</td><td style="color:var(--muted);font-size:12px">07 Jun 2026</td><td><button class="btn-sm" onclick="viewApplication('RCL-T2K99WZR','L. Pietersen','99****3312','R 1,500','Approved','720','K. Naidoo','07 Jun 2026')">View</button></td></tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="page-hdr"><div><h2>Applications</h2><p>310 total applications</p></div>
+  <div class="actions"><input class="search" placeholder="Search..." id="app-search" oninput="filterApps()"/><select class="filter" id="app-filter" onchange="filterApps()"><option>All Statuses</option><option>Submitted</option><option>Under Review</option><option>Manual Review</option><option>Approved</option><option>Declined</option></select><button class="btn btn-sm btn-outline" onclick="exportCsv(this,'ramus_applications.csv')">Export CSV</button></div></div>
+  <div class="box"><table id="app-table"><thead><tr><th>Reference</th><th>Applicant</th><th>ID</th><th>Amount</th><th>Status</th><th>Score</th><th>Assigned</th><th>Submitted</th><th></th></tr></thead><tbody>
+    <tr><td class="t-mono">RCL-X7K29MQA</td><td style="font-weight:600">T. Mokoena</td><td class="t-mono" style="color:var(--muted)">87****4028</td><td>R 4,500</td><td><span class="badge badge-amber">Manual Review</span></td><td style="font-weight:700;color:var(--amber)">612</td><td>S. Dlamini</td><td class="t-small">11 Jun 2026</td><td><button class="btn btn-xs btn-outline" onclick="viewApp('RCL-X7K29MQA','T. Mokoena','87****4028','R 4,500','Manual Review','612','S. Dlamini','11 Jun 2026')">View</button></td></tr>
+    <tr><td class="t-mono">RCL-B4R72NWP</td><td style="font-weight:600">N. van der Berg</td><td class="t-mono" style="color:var(--muted)">91****1083</td><td>R 2,500</td><td><span class="badge badge-blue">Under Review</span></td><td style="font-weight:700;color:var(--green)">741</td><td>K. Naidoo</td><td class="t-small">10 Jun 2026</td><td><button class="btn btn-xs btn-outline" onclick="viewApp('RCL-B4R72NWP','N. van der Berg','91****1083','R 2,500','Under Review','741','K. Naidoo','10 Jun 2026')">View</button></td></tr>
+    <tr><td class="t-mono">RCL-H9T56LSE</td><td style="font-weight:600">P. Sithole</td><td class="t-mono" style="color:var(--muted)">94****5576</td><td>R 4,800</td><td><span class="badge badge-blue">Submitted</span></td><td class="t-small">Pending</td><td>&#8212;</td><td class="t-small">11 Jun 2026</td><td><button class="btn btn-xs btn-outline" onclick="viewApp('RCL-H9T56LSE','P. Sithole','94****5576','R 4,800','Submitted','Pending','&#8212;','11 Jun 2026')">View</button></td></tr>
+    <tr><td class="t-mono">RCL-M3W88VXC</td><td style="font-weight:600">A. Botha</td><td class="t-mono" style="color:var(--muted)">78****2291</td><td>R 3,000</td><td><span class="badge badge-green">Approved</span></td><td style="font-weight:700;color:var(--green)">788</td><td>S. Dlamini</td><td class="t-small">09 Jun 2026</td><td><button class="btn btn-xs btn-outline" onclick="viewApp('RCL-M3W88VXC','A. Botha','78****2291','R 3,000','Approved','788','S. Dlamini','09 Jun 2026')">View</button></td></tr>
+    <tr><td class="t-mono">RCL-Q1Y44KDR</td><td style="font-weight:600">F. Mahlangu</td><td class="t-mono" style="color:var(--muted)">02****7834</td><td>R 5,000</td><td><span class="badge badge-red">Declined</span></td><td style="font-weight:700;color:var(--red)">389</td><td>K. Naidoo</td><td class="t-small">08 Jun 2026</td><td><button class="btn btn-xs btn-outline" onclick="viewApp('RCL-Q1Y44KDR','F. Mahlangu','02****7834','R 5,000','Declined','389','K. Naidoo','08 Jun 2026')">View</button></td></tr>
+    <tr><td class="t-mono">RCL-D7R21PLB</td><td style="font-weight:600">M. Khumalo</td><td class="t-mono" style="color:var(--muted)">85****0047</td><td>R 3,500</td><td><span class="badge badge-blue">Under Review</span></td><td style="font-weight:700;color:var(--amber)">558</td><td>S. Dlamini</td><td class="t-small">07 Jun 2026</td><td><button class="btn btn-xs btn-outline" onclick="viewApp('RCL-D7R21PLB','M. Khumalo','85****0047','R 3,500','Under Review','558','S. Dlamini','07 Jun 2026')">View</button></td></tr>
+    <tr><td class="t-mono">RCL-T2K99WZR</td><td style="font-weight:600">L. Pietersen</td><td class="t-mono" style="color:var(--muted)">99****3312</td><td>R 1,500</td><td><span class="badge badge-green">Approved</span></td><td style="font-weight:700;color:var(--green)">720</td><td>K. Naidoo</td><td class="t-small">07 Jun 2026</td><td><button class="btn btn-xs btn-outline" onclick="viewApp('RCL-T2K99WZR','L. Pietersen','99****3312','R 1,500','Approved','720','K. Naidoo','07 Jun 2026')">View</button></td></tr>
+  </tbody></table></div>
 </div>
 
-<!-- STAFF -->
-<div id="page-users" class="page">
-  <div class="page-hdr">
-    <div><div class="page-title">Staff Accounts</div><div class="page-sub">Credit analysts and administrators</div></div>
-    <button class="btn-primary" onclick="document.getElementById('modal-add-staff').classList.add('open')">
-      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-      Add Staff Member
-    </button>
-  </div>
-  <div class="card-box">
-    <table>
-      <thead><tr><th></th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last Active</th><th>Applications</th><th></th></tr></thead>
-      <tbody>
-        <tr id="staff-row-1">
-          <td><div class="user-avatar">SD</div></td>
-          <td style="font-weight:600">S. Dlamini</td>
-          <td style="color:var(--muted);font-size:12.5px">s.dlamini@ramusfinancialsolutions.co.za</td>
-          <td><span class="badge badge-amber">Credit Analyst</span></td>
-          <td><span class="badge badge-green">Active</span></td>
-          <td style="font-size:12px;color:var(--muted)">Today, 09:14</td>
-          <td style="font-weight:600">47</td>
-          <td><button class="btn-sm" onclick="manageStaff('staff-row-1','S. Dlamini','s.dlamini@ramusfinancialsolutions.co.za','Credit Analyst','Active')">Manage</button></td>
-        </tr>
-        <tr id="staff-row-2">
-          <td><div class="user-avatar">KN</div></td>
-          <td style="font-weight:600">K. Naidoo</td>
-          <td style="color:var(--muted);font-size:12.5px">k.naidoo@ramusfinancialsolutions.co.za</td>
-          <td><span class="badge badge-amber">Credit Analyst</span></td>
-          <td><span class="badge badge-green">Active</span></td>
-          <td style="font-size:12px;color:var(--muted)">Today, 08:50</td>
-          <td style="font-weight:600">39</td>
-          <td><button class="btn-sm" onclick="manageStaff('staff-row-2','K. Naidoo','k.naidoo@ramusfinancialsolutions.co.za','Credit Analyst','Active')">Manage</button></td>
-        </tr>
-        <tr id="staff-row-3">
-          <td><div class="user-avatar">JP</div></td>
-          <td style="font-weight:600">J. Pretorius</td>
-          <td style="color:var(--muted);font-size:12.5px">j.pretorius@ramusfinancialsolutions.co.za</td>
-          <td><span class="badge badge-amber">Credit Analyst</span></td>
-          <td><span class="badge badge-gray">Off Duty</span></td>
-          <td style="font-size:12px;color:var(--muted)">Yesterday, 17:02</td>
-          <td style="font-weight:600">28</td>
-          <td><button class="btn-sm" onclick="manageStaff('staff-row-3','J. Pretorius','j.pretorius@ramusfinancialsolutions.co.za','Credit Analyst','Off Duty')">Manage</button></td>
-        </tr>
-        <tr id="staff-row-4">
-          <td><div class="user-avatar" style="background:var(--gold);color:var(--navy)">AD</div></td>
-          <td style="font-weight:600">A. du Plessis</td>
-          <td style="color:var(--muted);font-size:12.5px">admin@ramusfinancialsolutions.co.za</td>
-          <td><span class="badge badge-blue">Administrator</span></td>
-          <td><span class="badge badge-green">Active</span></td>
-          <td style="font-size:12px;color:var(--muted)">Today, 08:02</td>
-          <td>—</td>
-          <td><button class="btn-sm" onclick="manageStaff('staff-row-4','A. du Plessis','admin@ramusfinancialsolutions.co.za','Administrator','Active')">Manage</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div id="page-staff" class="page">
+  <div class="page-hdr"><div><h2>Staff Accounts</h2><p>Credit analysts and administrators</p></div>
+  <button class="btn btn-md btn-primary" onclick="document.getElementById('modal-add').classList.add('open')"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Add Staff Member</button></div>
+  <div class="box"><table><thead><tr><th></th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last Active</th><th>Applications</th><th></th></tr></thead><tbody>
+    <tr id="sr-1"><td><div class="av">SD</div></td><td style="font-weight:600">S. Dlamini</td><td class="t-small">s.dlamini@ramusfinancialsolutions.co.za</td><td><span class="badge badge-navy">Credit Analyst</span></td><td><span class="badge badge-green">Active</span></td><td class="t-small">Today, 09:14</td><td style="font-weight:700">47</td><td><button class="btn btn-xs btn-outline" onclick="manageStaff('sr-1','S. Dlamini','s.dlamini@ramusfinancialsolutions.co.za','Credit Analyst','Active')">Manage</button></td></tr>
+    <tr id="sr-2"><td><div class="av">KN</div></td><td style="font-weight:600">K. Naidoo</td><td class="t-small">k.naidoo@ramusfinancialsolutions.co.za</td><td><span class="badge badge-navy">Credit Analyst</span></td><td><span class="badge badge-green">Active</span></td><td class="t-small">Today, 08:50</td><td style="font-weight:700">39</td><td><button class="btn btn-xs btn-outline" onclick="manageStaff('sr-2','K. Naidoo','k.naidoo@ramusfinancialsolutions.co.za','Credit Analyst','Active')">Manage</button></td></tr>
+    <tr id="sr-3"><td><div class="av">JP</div></td><td style="font-weight:600">J. Pretorius</td><td class="t-small">j.pretorius@ramusfinancialsolutions.co.za</td><td><span class="badge badge-navy">Credit Analyst</span></td><td><span class="badge badge-gray">Off Duty</span></td><td class="t-small">Yesterday, 17:02</td><td style="font-weight:700">28</td><td><button class="btn btn-xs btn-outline" onclick="manageStaff('sr-3','J. Pretorius','j.pretorius@ramusfinancialsolutions.co.za','Credit Analyst','Off Duty')">Manage</button></td></tr>
+    <tr id="sr-4"><td><div class="av av-gold">AD</div></td><td style="font-weight:600">A. du Plessis</td><td class="t-small">admin@ramusfinancialsolutions.co.za</td><td><span class="badge badge-blue">Administrator</span></td><td><span class="badge badge-green">Active</span></td><td class="t-small">Today, 08:02</td><td class="t-small">&#8212;</td><td><button class="btn btn-xs btn-outline" onclick="manageStaff('sr-4','A. du Plessis','admin@ramusfinancialsolutions.co.za','Administrator','Active')">Manage</button></td></tr>
+  </tbody></table></div>
 </div>
 
-<!-- REPORTS -->
 <div id="page-reports" class="page">
-  <div class="page-hdr"><div><div class="page-title">Reports</div><div class="page-sub">Generate compliance and performance reports</div></div></div>
+  <div class="page-hdr"><div><h2>Reports</h2><p>Generate compliance and performance reports</p></div></div>
   <div class="report-grid">
-    <div class="report-card" onclick="openReport('monthly')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="rc-title">Monthly Performance</div><div class="rc-desc">Applications received, approved, declined. Approval rate and processing time.</div><div class="rc-btn">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
-    <div class="report-card" onclick="openReport('ncr')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="rc-title">NCR Compliance</div><div class="rc-desc">Regulatory submission report for the National Credit Regulator.</div><div class="rc-btn">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
-    <div class="report-card" onclick="openReport('staff')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="rc-title">Staff Performance</div><div class="rc-desc">Applications per analyst, review time, escalation rates, SLA adherence.</div><div class="rc-btn">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
-    <div class="report-card" onclick="openReport('engine')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div><div class="rc-title">Decision Engine</div><div class="rc-desc">Automated vs manual decisions. Rule trigger frequency and decline analysis.</div><div class="rc-btn">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
-    <div class="report-card" onclick="openReport('popia')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="rc-title">POPIA Data Access</div><div class="rc-desc">Who accessed personal information, when and why. Required for POPIA compliance.</div><div class="rc-btn">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
-    <div class="report-card" onclick="openReport('bureau')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="rc-title">Bureau Usage</div><div class="rc-desc">Credit bureau enquiries by date, volume, and linked consent records.</div><div class="rc-btn">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+    <div class="rc" onclick="openReport('monthly')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div class="rc-title">Monthly Performance</div><div class="rc-desc">Applications, approvals, declines and processing times.</div><div class="rc-cta">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+    <div class="rc" onclick="openReport('ncr')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="rc-title">NCR Compliance</div><div class="rc-desc">Regulatory submission for the National Credit Regulator.</div><div class="rc-cta">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+    <div class="rc" onclick="openReport('staff')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="rc-title">Staff Performance</div><div class="rc-desc">Per-analyst volume, review time and SLA adherence.</div><div class="rc-cta">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+    <div class="rc" onclick="openReport('engine')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div><div class="rc-title">Decision Engine</div><div class="rc-desc">Automated vs manual, rule triggers and decline analysis.</div><div class="rc-cta">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+    <div class="rc" onclick="openReport('popia')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><div class="rc-title">POPIA Data Access</div><div class="rc-desc">Who accessed personal information, when and why.</div><div class="rc-cta">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+    <div class="rc" onclick="openReport('bureau')"><div class="rc-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="rc-title">Bureau Usage</div><div class="rc-desc">Credit bureau enquiries, volume and consent records.</div><div class="rc-cta">Generate <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
   </div>
 </div>
 
-<!-- RULES -->
 <div id="page-rules" class="page">
-  <div class="page-hdr"><div><div class="page-title">Decision Rules</div><div class="page-sub">Automated credit decisioning engine</div></div></div>
-  <div class="card-box">
-    <table>
-      <thead><tr><th>Rule Name</th><th>Condition</th><th>Outcome</th><th>Priority</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td style="font-weight:600">Active Judgements — Hard Decline</td><td style="font-size:12.5px;color:var(--muted)">active_judgements &gt; 0</td><td><span class="badge badge-red">Decline</span></td><td><div class="rule-priority"><div class="priority-dot filled"></div><div class="priority-dot filled"></div><div class="priority-dot filled"></div></div></td><td><span class="badge badge-green">Active</span></td></tr>
-        <tr><td style="font-weight:600">DTI Exceeds Maximum</td><td style="font-size:12.5px;color:var(--muted)">debt_to_income &gt; 0.55</td><td><span class="badge badge-red">Decline</span></td><td><div class="rule-priority"><div class="priority-dot filled"></div><div class="priority-dot filled"></div><div class="priority-dot filled"></div></div></td><td><span class="badge badge-green">Active</span></td></tr>
-        <tr><td style="font-weight:600">Moderate Credit Score</td><td style="font-size:12.5px;color:var(--muted)">credit_score between 580–649</td><td><span class="badge badge-amber">Manual Review</span></td><td><div class="rule-priority"><div class="priority-dot filled"></div><div class="priority-dot filled"></div><div class="priority-dot"></div></div></td><td><span class="badge badge-green">Active</span></td></tr>
-        <tr><td style="font-weight:600">Strong Credit Profile</td><td style="font-size:12.5px;color:var(--muted)">credit_score &gt;= 700 AND dti &lt; 0.40</td><td><span class="badge badge-green">Approve</span></td><td><div class="rule-priority"><div class="priority-dot filled"></div><div class="priority-dot"></div><div class="priority-dot"></div></div></td><td><span class="badge badge-green">Active</span></td></tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="page-hdr"><div><h2>Decision Rules</h2><p>Automated credit decisioning engine</p></div></div>
+  <div class="box"><table><thead><tr><th>Rule</th><th>Condition</th><th>Outcome</th><th>Priority</th><th>Status</th></tr></thead><tbody>
+    <tr><td style="font-weight:600">Active Judgements</td><td class="t-mono" style="color:var(--muted)">active_judgements &gt; 0</td><td><span class="badge badge-red">Decline</span></td><td><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></td><td><span class="badge badge-green">Active</span></td></tr>
+    <tr><td style="font-weight:600">DTI Exceeds Maximum</td><td class="t-mono" style="color:var(--muted)">debt_to_income &gt; 0.55</td><td><span class="badge badge-red">Decline</span></td><td><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></td><td><span class="badge badge-green">Active</span></td></tr>
+    <tr><td style="font-weight:600">Moderate Credit Score</td><td class="t-mono" style="color:var(--muted)">score 580&ndash;649</td><td><span class="badge badge-amber">Manual Review</span></td><td><div class="dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></td><td><span class="badge badge-green">Active</span></td></tr>
+    <tr><td style="font-weight:600">Strong Credit Profile</td><td class="t-mono" style="color:var(--muted)">score &ge; 700 AND dti &lt; 0.40</td><td><span class="badge badge-green">Approve</span></td><td><div class="dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></td><td><span class="badge badge-green">Active</span></td></tr>
+  </tbody></table></div>
 </div>
 
-<!-- AUDIT LOGS -->
 <div id="page-audit" class="page">
-  <div class="page-hdr">
-    <div><div class="page-title">Audit Logs</div><div class="page-sub">Complete system activity record</div></div>
-    <button class="btn-outline" onclick="exportTableToCsv(this,'ramus_audit.csv')">Export CSV</button>
-  </div>
-  <div class="card-box">
-    <table>
-      <thead><tr><th>Time</th><th>Action</th><th>Actor</th><th>Target</th><th>Detail</th></tr></thead>
-      <tbody>
-        <tr><td style="font-size:12px;color:var(--muted)">09:31</td><td><span class="badge badge-green">APPROVED</span></td><td>S. Dlamini</td><td class="mono">RCL-M3W88VXC</td><td style="font-size:12.5px;color:var(--muted)">Manual approval after review</td></tr>
-        <tr><td style="font-size:12px;color:var(--muted)">09:14</td><td><span class="badge badge-amber">ESCALATED</span></td><td>K. Naidoo</td><td class="mono">RCL-X7K29MQA</td><td style="font-size:12.5px;color:var(--muted)">Referred for senior analyst review</td></tr>
-        <tr><td style="font-size:12px;color:var(--muted)">08:57</td><td><span class="badge badge-blue">SUBMITTED</span></td><td>System</td><td class="mono">RCL-H9T56LSE</td><td style="font-size:12.5px;color:var(--muted)">New application received</td></tr>
-        <tr><td style="font-size:12px;color:var(--muted)">08:44</td><td><span class="badge badge-red">DECLINED</span></td><td>K. Naidoo</td><td class="mono">RCL-Q1Y44KDR</td><td style="font-size:12.5px;color:var(--muted)">DTI exceeds maximum threshold</td></tr>
-        <tr><td style="font-size:12px;color:var(--muted)">08:02</td><td><span class="badge badge-gray">LOGIN</span></td><td>A. du Plessis</td><td>—</td><td style="font-size:12.5px;color:var(--muted)">Admin login from 196.x.x.x</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="page-hdr"><div><h2>Audit Log</h2><p>Complete system activity record</p></div>
+  <button class="btn btn-sm btn-outline" onclick="exportCsv(this,'ramus_audit.csv')">Export CSV</button></div>
+  <div class="box"><table><thead><tr><th>Time</th><th>Event</th><th>Actor</th><th>Target</th><th>Detail</th></tr></thead><tbody>
+    <tr><td class="t-small">09:31</td><td><span class="badge badge-green">APPROVED</span></td><td>S. Dlamini</td><td class="t-mono">RCL-M3W88VXC</td><td class="t-small">Manual approval after review</td></tr>
+    <tr><td class="t-small">09:14</td><td><span class="badge badge-amber">ESCALATED</span></td><td>K. Naidoo</td><td class="t-mono">RCL-X7K29MQA</td><td class="t-small">Referred for senior analyst review</td></tr>
+    <tr><td class="t-small">08:57</td><td><span class="badge badge-blue">SUBMITTED</span></td><td>System</td><td class="t-mono">RCL-H9T56LSE</td><td class="t-small">New application received</td></tr>
+    <tr><td class="t-small">08:44</td><td><span class="badge badge-red">DECLINED</span></td><td>K. Naidoo</td><td class="t-mono">RCL-Q1Y44KDR</td><td class="t-small">DTI exceeds maximum threshold</td></tr>
+    <tr><td class="t-small">08:02</td><td><span class="badge badge-gray">LOGIN</span></td><td>A. du Plessis</td><td>&#8212;</td><td class="t-small">Admin session started</td></tr>
+  </tbody></table></div>
 </div>
 
 </main>
 </div>
 
-<!-- MODAL: Application View -->
-<div class="modal-overlay" id="modal-app-view">
-  <div class="modal modal-wide">
-    <h3><span id="app-view-ref">Application</span><button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('open')">&#215;</button></h3>
-    <div class="report-meta" id="app-view-meta"></div>
-    <div class="report-kpi-row" style="margin-bottom:20px">
-      <div class="report-kpi"><div class="k-val" id="app-view-amount"></div><div class="k-label">Amount Requested</div></div>
-      <div class="report-kpi"><div class="k-val" id="app-view-score"></div><div class="k-label">Credit Score</div></div>
-      <div class="report-kpi"><div class="k-val" id="app-view-assigned"></div><div class="k-label">Assigned To</div></div>
+<div class="overlay" id="modal-app">
+  <div class="modal modal-lg">
+    <div class="modal-hdr"><div class="modal-title" id="av-ref">Application</div><button class="modal-close" onclick="this.closest('.overlay').classList.remove('open')">&#215;</button></div>
+    <div class="t-small" style="margin-bottom:16px" id="av-meta"></div>
+    <div class="kpi-row" style="margin-bottom:20px">
+      <div class="kpi"><div class="kpi-val" id="av-amount"></div><div class="kpi-label">Amount Requested</div></div>
+      <div class="kpi"><div class="kpi-val" id="av-score"></div><div class="kpi-label">Credit Score</div></div>
+      <div class="kpi"><div class="kpi-val" id="av-assigned"></div><div class="kpi-label">Assigned To</div></div>
     </div>
-    <div class="two-grid" style="margin-bottom:16px">
-      <div><div class="form-label" style="margin-bottom:4px">Applicant</div><div style="font-size:15px;font-weight:700" id="app-view-name"></div></div>
-      <div><div class="form-label" style="margin-bottom:4px">ID Number</div><div style="font-size:15px;font-weight:700;font-family:monospace" id="app-view-id"></div></div>
+    <div class="g2" style="margin-bottom:16px">
+      <div><div class="t-label" style="margin-bottom:4px">Applicant Name</div><div style="font-size:15px;font-weight:700;color:var(--navy)" id="av-name"></div></div>
+      <div><div class="t-label" style="margin-bottom:4px">ID Number</div><div class="t-mono" style="font-size:14px;color:var(--navy)" id="av-id"></div></div>
     </div>
-    <p style="font-size:12.5px;color:var(--muted);line-height:1.6;padding:12px;background:var(--surface);border-radius:7px">Summary view. For full credit bureau detail and document review, open this application in the Worker Portal.</p>
-    <div class="modal-footer">
-      <a href="worker.html" class="btn-primary" style="text-decoration:none">Open in Worker Portal</a>
-      <button class="btn-outline" onclick="this.closest('.modal-overlay').classList.remove('open')">Close</button>
-    </div>
+    <div class="info-note">For full credit bureau detail and decisioning, open this application in the Staff Portal.</div>
+    <div class="modal-footer"><a href="worker.html" class="btn btn-md btn-primary" style="text-decoration:none">Open in Staff Portal</a><button class="btn btn-md btn-outline" onclick="this.closest('.overlay').classList.remove('open')">Close</button></div>
   </div>
 </div>
 
-<!-- MODAL: Report -->
-<div class="modal-overlay" id="modal-report">
-  <div class="modal modal-wide">
-    <h3><span id="report-title"></span><button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('open')">&#215;</button></h3>
-    <div class="report-meta" id="report-meta"></div>
-    <div id="report-body"></div>
-    <div class="modal-footer">
-      <button class="btn-outline" onclick="window.print()">Print</button>
-      <button class="btn-outline" onclick="this.closest('.modal-overlay').classList.remove('open')">Close</button>
-    </div>
+<div class="overlay" id="modal-report">
+  <div class="modal modal-lg">
+    <div class="modal-hdr"><div class="modal-title" id="rp-title"></div><button class="modal-close" onclick="this.closest('.overlay').classList.remove('open')">&#215;</button></div>
+    <div class="t-small" style="margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)" id="rp-meta"></div>
+    <div id="rp-body"></div>
+    <div class="modal-footer"><button class="btn btn-md btn-outline" onclick="window.print()">Print</button><button class="btn btn-md btn-outline" onclick="this.closest('.overlay').classList.remove('open')">Close</button></div>
   </div>
 </div>
 
-<!-- MODAL: Add Staff -->
-<div class="modal-overlay" id="modal-add-staff">
+<div class="overlay" id="modal-add">
   <div class="modal">
-    <h3>Add Staff Member <button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('open')">&#215;</button></h3>
-    <div class="form-field"><label class="form-label">Full Name</label><input class="form-input" placeholder="e.g. Zanele Mthembu" /></div>
-    <div class="form-field"><label class="form-label">Email Address</label><input class="form-input" type="email" placeholder="e.g. z.mthembu@ramusfinancialsolutions.co.za" /></div>
-    <div class="form-field"><label class="form-label">Role</label><select class="form-input"><option>Credit Analyst</option><option>Administrator</option></select></div>
-    <div class="modal-footer">
-      <button class="btn-outline" onclick="this.closest('.modal-overlay').classList.remove('open')">Cancel</button>
-      <button class="btn-primary" onclick="this.closest('.modal-overlay').classList.remove('open')">Create Account</button>
-    </div>
+    <div class="modal-hdr"><div class="modal-title">Add Staff Member</div><button class="modal-close" onclick="this.closest('.overlay').classList.remove('open')">&#215;</button></div>
+    <div class="field" style="margin-bottom:14px"><label class="label">Full Name</label><input class="input" placeholder="e.g. Zanele Mthembu"/></div>
+    <div class="field" style="margin-bottom:14px"><label class="label">Email Address</label><input class="input" type="email" placeholder="e.g. z.mthembu@ramusfinancialsolutions.co.za"/></div>
+    <div class="field"><label class="label">Role</label><select class="select"><option>Credit Analyst</option><option>Administrator</option></select></div>
+    <div class="modal-footer"><button class="btn btn-md btn-outline" onclick="this.closest('.overlay').classList.remove('open')">Cancel</button><button class="btn btn-md btn-primary" onclick="this.closest('.overlay').classList.remove('open')">Create Account</button></div>
   </div>
 </div>
 
-<!-- MODAL: Manage Staff -->
-<div class="modal-overlay" id="modal-manage-staff">
+<div class="overlay" id="modal-manage">
   <div class="modal">
-    <h3>Manage Staff Member <button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('open')">&#215;</button></h3>
-    <div class="form-field"><label class="form-label">Full Name</label><input class="form-input" id="manage-name" /></div>
-    <div class="form-field"><label class="form-label">Email Address</label><input class="form-input" type="email" id="manage-email" /></div>
-    <div class="form-field"><label class="form-label">Role</label><select class="form-input" id="manage-role"><option>Credit Analyst</option><option>Administrator</option></select></div>
-    <div class="form-field"><label class="form-label">Status</label><select class="form-input" id="manage-status"><option>Active</option><option>Off Duty</option><option>Deactivated</option></select></div>
-    <div class="modal-footer">
-      <button class="btn-outline btn-danger" onclick="deactivateStaff()">Deactivate</button>
-      <button class="btn-outline" onclick="this.closest('.modal-overlay').classList.remove('open')">Cancel</button>
-      <button class="btn-primary" onclick="saveStaffChanges()">Save Changes</button>
-    </div>
+    <div class="modal-hdr"><div class="modal-title">Manage Staff Member</div><button class="modal-close" onclick="this.closest('.overlay').classList.remove('open')">&#215;</button></div>
+    <div class="field" style="margin-bottom:14px"><label class="label">Full Name</label><input class="input" id="ms-name"/></div>
+    <div class="field" style="margin-bottom:14px"><label class="label">Email</label><input class="input" type="email" id="ms-email"/></div>
+    <div class="field" style="margin-bottom:14px"><label class="label">Role</label><select class="select" id="ms-role"><option>Credit Analyst</option><option>Administrator</option></select></div>
+    <div class="field"><label class="label">Status</label><select class="select" id="ms-status"><option>Active</option><option>Off Duty</option><option>Deactivated</option></select></div>
+    <div class="modal-footer"><button class="btn btn-md btn-danger-outline" onclick="deactivate()">Deactivate</button><button class="btn btn-md btn-outline" onclick="this.closest('.overlay').classList.remove('open')">Cancel</button><button class="btn btn-md btn-primary" onclick="saveStaff()">Save Changes</button></div>
   </div>
 </div>
 
 <script>
 function showPage(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const pg=document.getElementById('page-'+id);if(pg)pg.classList.add('active');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));if(el)el.classList.add('active');closeSidebar();}
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sidebar-backdrop').classList.toggle('open');}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-backdrop').classList.remove('open');}
-let activeStaffRow=null;
-function manageStaff(rowId,name,email,role,status){activeStaffRow=rowId;document.getElementById('manage-name').value=name;document.getElementById('manage-email').value=email;document.getElementById('manage-role').value=role;document.getElementById('manage-status').value=status;document.getElementById('modal-manage-staff').classList.add('open');}
-function badgeClass(s){return s==='Active'?'badge badge-green':s==='Off Duty'?'badge badge-gray':'badge badge-red';}
-function saveStaffChanges(){if(!activeStaffRow)return;const row=document.getElementById(activeStaffRow);const name=document.getElementById('manage-name').value;const email=document.getElementById('manage-email').value;const role=document.getElementById('manage-role').value;const status=document.getElementById('manage-status').value;const cells=row.querySelectorAll('td');cells[1].textContent=name;cells[2].textContent=email;cells[3].innerHTML='<span class="badge badge-amber">'+role+'</span>';cells[4].innerHTML='<span class="'+badgeClass(status)+'">'+status+'</span>';document.getElementById('modal-manage-staff').classList.remove('open');}
-function deactivateStaff(){document.getElementById('manage-status').value='Deactivated';saveStaffChanges();}
-function viewApplication(ref,name,id,amount,status,score,assigned,submitted){document.getElementById('app-view-ref').textContent=ref;document.getElementById('app-view-meta').textContent='Submitted '+submitted;document.getElementById('app-view-amount').textContent=amount;document.getElementById('app-view-score').textContent=score;document.getElementById('app-view-assigned').textContent=assigned;document.getElementById('app-view-name').textContent=name;document.getElementById('app-view-id').textContent=id;document.getElementById('modal-app-view').classList.add('open');}
-function filterApplications(){const filter=document.getElementById('app-status-filter').value;const search=(document.getElementById('app-search').value||'').toLowerCase();document.querySelectorAll('#app-table tbody tr').forEach(row=>{const sm=filter==='All Statuses'||row.querySelector('td:nth-child(5)')?.textContent.trim()===filter;const sch=!search||row.textContent.toLowerCase().includes(search);row.style.display=sm&&sch?'':' none';});}
-function exportTableToCsv(btn,filename){const table=btn.closest('.page')?.querySelector('table');if(!table)return;const rows=Array.from(table.querySelectorAll('tr'));const csv=rows.map(row=>Array.from(row.querySelectorAll('th,td')).map(cell=>{let t=cell.textContent.trim().replace(/\s+/g,' ');return t.includes(',')||t.includes('"')?'"'+t.replace(/"/g,'""')+'"':t;}).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=filename;document.body.appendChild(a);a.click();document.body.removeChild(a);}
-const REPORTS={monthly:{title:'Monthly Performance Report — June 2026',body:`<div class="report-section"><div class="report-kpi-row"><div class="report-kpi"><div class="k-val">310</div><div class="k-label">Total Applications</div></div><div class="report-kpi"><div class="k-val">143</div><div class="k-label">Approved (46%)</div></div><div class="report-kpi"><div class="k-val">31</div><div class="k-label">Declined (10%)</div></div><div class="report-kpi"><div class="k-val">35</div><div class="k-label">Pending</div></div></div></div><div class="report-section"><h4>Weekly Breakdown</h4><table class="report-table"><thead><tr><th>Week</th><th>Submitted</th><th>Approved</th><th>Declined</th><th>Rate</th></tr></thead><tbody><tr><td>Week 1</td><td>68</td><td>29</td><td>8</td><td>43%</td></tr><tr><td>Week 2</td><td>74</td><td>34</td><td>7</td><td>46%</td></tr><tr><td>Week 3</td><td>81</td><td>39</td><td>9</td><td>48%</td></tr><tr><td>Week 4</td><td>87</td><td>41</td><td>7</td><td>47%</td></tr></tbody></table></div><div class="report-note">Average processing time: 1.8 business days. 92% of applications decisioned within the 2-day SLA.</div>`},ncr:{title:'NCR Compliance Report',body:`<div class="report-section"><div class="report-kpi-row"><div class="report-kpi"><div class="k-val">310</div><div class="k-label">Applications Assessed</div></div><div class="report-kpi"><div class="k-val">310</div><div class="k-label">Affordability Checks</div></div><div class="report-kpi"><div class="k-val">100%</div><div class="k-label">Consent Coverage</div></div></div></div><div class="report-section"><h4>Summary</h4><p style="font-size:13px;color:var(--muted);line-height:1.7">All applications assessed against income, expenses and obligations in line with the National Credit Act 34 of 2005. Loans capped at R5,000 with a fixed 30% cost of credit.</p></div><div class="report-note">Export the application register alongside this summary for full NCR submission.</div>`},staff:{title:'Staff Performance Report — June 2026',body:`<div class="report-section"><table class="report-table"><thead><tr><th>Analyst</th><th>Applications</th><th>Avg Review Time</th><th>Escalation Rate</th><th>SLA</th></tr></thead><tbody><tr><td>S. Dlamini</td><td>47</td><td>1.6 days</td><td>6%</td><td>96%</td></tr><tr><td>K. Naidoo</td><td>39</td><td>1.9 days</td><td>8%</td><td>91%</td></tr><tr><td>J. Pretorius</td><td>28</td><td>2.2 days</td><td>11%</td><td>87%</td></tr></tbody></table></div><div class="report-section"><div class="report-kpi-row"><div class="report-kpi"><div class="k-val">114</div><div class="k-label">Total Handled</div></div><div class="report-kpi"><div class="k-val">1.9 days</div><div class="k-label">Team Average</div></div><div class="report-kpi"><div class="k-val">91%</div><div class="k-label">Team SLA</div></div></div></div>`},engine:{title:'Decision Engine Report',body:`<div class="report-section"><div class="report-kpi-row"><div class="report-kpi"><div class="k-val">68%</div><div class="k-label">Automated Decisions</div></div><div class="report-kpi"><div class="k-val">32%</div><div class="k-label">Manual Review</div></div></div></div><div class="report-section"><h4>Rule Trigger Frequency</h4><table class="report-table"><thead><tr><th>Rule</th><th>Outcome</th><th>Triggered</th></tr></thead><tbody><tr><td>Active judgements</td><td>Decline</td><td>14</td></tr><tr><td>DTI exceeds maximum</td><td>Decline</td><td>17</td></tr><tr><td>Moderate credit score</td><td>Manual Review</td><td>62</td></tr><tr><td>Strong credit profile</td><td>Approve</td><td>96</td></tr></tbody></table></div>`},popia:{title:'POPIA Data Access Report',body:`<div class="report-section"><table class="report-table"><thead><tr><th>Accessed By</th><th>Record</th><th>Reason</th><th>When</th></tr></thead><tbody><tr><td>S. Dlamini</td><td>RCL-X7K29MQA</td><td>Bureau check review</td><td>11 Jun 2026, 09:14</td></tr><tr><td>System</td><td>RCL-B4R72NWP</td><td>Automated decisioning</td><td>11 Jun 2026, 09:12</td></tr><tr><td>T. Mokoena (Client)</td><td>RCL-X7K29MQA</td><td>Consent grant</td><td>11 Jun 2026, 08:55</td></tr></tbody></table></div><div class="report-note">Full access history is in the Audit Logs tab. Data subjects may request their information by emailing compliance@ramusfinancialsolutions.co.za.</div>`},bureau:{title:'Bureau Usage Report — June 2026',body:`<div class="report-section"><div class="report-kpi-row"><div class="report-kpi"><div class="k-val">310</div><div class="k-label">Bureau Enquiries</div></div><div class="report-kpi"><div class="k-val">310</div><div class="k-label">Linked Consents</div></div><div class="report-kpi"><div class="k-val">100%</div><div class="k-label">Coverage</div></div></div></div><div class="report-section"><h4>By Bureau</h4><table class="report-table"><thead><tr><th>Bureau</th><th>Enquiries</th><th>Avg Response</th></tr></thead><tbody><tr><td>TransUnion</td><td>310</td><td>2.4s</td></tr></tbody></table></div><div class="report-note">TransUnion is the only connected bureau. Experian and Compuscan are supported but not yet activated.</div>`}};
-function openReport(key){const r=REPORTS[key];if(!r)return;document.getElementById('report-title').textContent=r.title;document.getElementById('report-meta').textContent='Generated '+new Date().toLocaleString('en-ZA',{dateStyle:'medium',timeStyle:'short'})+' · Ramus Financial Solutions · NCRCP19178';document.getElementById('report-body').innerHTML=r.body;document.getElementById('modal-report').classList.add('open');}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('backdrop').classList.toggle('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('backdrop').classList.remove('open');}
+let activeRow=null;
+function manageStaff(r,n,e,ro,s){activeRow=r;document.getElementById('ms-name').value=n;document.getElementById('ms-email').value=e;document.getElementById('ms-role').value=ro;document.getElementById('ms-status').value=s;document.getElementById('modal-manage').classList.add('open');}
+function badgeCls(s){return s==='Active'?'badge badge-green':s==='Off Duty'?'badge badge-gray':'badge badge-red';}
+function saveStaff(){if(!activeRow)return;const row=document.getElementById(activeRow);const n=document.getElementById('ms-name').value,e=document.getElementById('ms-email').value,r=document.getElementById('ms-role').value,s=document.getElementById('ms-status').value;const c=row.querySelectorAll('td');c[1].textContent=n;c[2].textContent=e;c[3].innerHTML='<span class="badge badge-navy">'+r+'</span>';c[4].innerHTML='<span class="'+badgeCls(s)+'">'+s+'</span>';document.getElementById('modal-manage').classList.remove('open');}
+function deactivate(){document.getElementById('ms-status').value='Deactivated';saveStaff();}
+function viewApp(ref,name,id,amount,status,score,assigned,submitted){document.getElementById('av-ref').textContent=ref;document.getElementById('av-meta').textContent='Submitted '+submitted;document.getElementById('av-amount').textContent=amount;document.getElementById('av-score').textContent=score;document.getElementById('av-assigned').textContent=assigned;document.getElementById('av-name').textContent=name;document.getElementById('av-id').textContent=id;document.getElementById('modal-app').classList.add('open');}
+function filterApps(){const f=document.getElementById('app-filter').value;const s=(document.getElementById('app-search').value||'').toLowerCase();document.querySelectorAll('#app-table tbody tr').forEach(r=>{const sm=f==='All Statuses'||r.querySelector('td:nth-child(5)')?.textContent.trim()===f;const sc=!s||r.textContent.toLowerCase().includes(s);r.style.display=sm&&sc?'':'none';});}
+function exportCsv(btn,fn){const t=btn.closest('.page')?.querySelector('table');if(!t)return;const csv=Array.from(t.querySelectorAll('tr')).map(r=>Array.from(r.querySelectorAll('th,td')).map(c=>{let tx=c.textContent.trim().replace(/\s+/g,' ');return tx.includes(',')||tx.includes('"')?'"'+tx.replace(/"/g,'""')+'"':tx;}).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=fn;document.body.appendChild(a);a.click();document.body.removeChild(a);}
+const REPORTS={monthly:{title:'Monthly Performance Report \u2014 June 2026',body:'<div class="report-section"><div class="kpi-row"><div class="kpi"><div class="kpi-val">310</div><div class="kpi-label">Total Applications</div></div><div class="kpi"><div class="kpi-val">143</div><div class="kpi-label">Approved (46%)</div></div><div class="kpi"><div class="kpi-val">31</div><div class="kpi-label">Declined (10%)</div></div><div class="kpi"><div class="kpi-val">35</div><div class="kpi-label">Pending</div></div></div></div><div class="report-section"><div class="report-section-title">Weekly Breakdown</div><table class="report-table"><thead><tr><th>Week</th><th>Submitted</th><th>Approved</th><th>Declined</th><th>Rate</th></tr></thead><tbody><tr><td>Week 1</td><td>68</td><td>29</td><td>8</td><td>43%</td></tr><tr><td>Week 2</td><td>74</td><td>34</td><td>7</td><td>46%</td></tr><tr><td>Week 3</td><td>81</td><td>39</td><td>9</td><td>48%</td></tr><tr><td>Week 4</td><td>87</td><td>41</td><td>7</td><td>47%</td></tr></tbody></table></div><div class="info-note">Average processing time: 1.8 business days. 92% of applications decisioned within the 2-day SLA.</div>'},ncr:{title:'NCR Compliance Report',body:'<div class="report-section"><div class="kpi-row"><div class="kpi"><div class="kpi-val">310</div><div class="kpi-label">Assessed</div></div><div class="kpi"><div class="kpi-val">310</div><div class="kpi-label">Affordability Checks</div></div><div class="kpi"><div class="kpi-val">100%</div><div class="kpi-label">Consent Coverage</div></div></div></div><div class="info-note">All applications assessed against income, expenses and obligations per the National Credit Act 34 of 2005.</div>'},staff:{title:'Staff Performance Report \u2014 June 2026',body:'<div class="report-section"><table class="report-table"><thead><tr><th>Analyst</th><th>Applications</th><th>Avg Review Time</th><th>Escalation Rate</th><th>SLA</th></tr></thead><tbody><tr><td>S. Dlamini</td><td>47</td><td>1.6 days</td><td>6%</td><td>96%</td></tr><tr><td>K. Naidoo</td><td>39</td><td>1.9 days</td><td>8%</td><td>91%</td></tr><tr><td>J. Pretorius</td><td>28</td><td>2.2 days</td><td>11%</td><td>87%</td></tr></tbody></table></div>'},engine:{title:'Decision Engine Report',body:'<div class="report-section"><div class="kpi-row"><div class="kpi"><div class="kpi-val">68%</div><div class="kpi-label">Automated</div></div><div class="kpi"><div class="kpi-val">32%</div><div class="kpi-label">Manual Review</div></div></div></div><div class="report-section"><div class="report-section-title">Rule Triggers</div><table class="report-table"><thead><tr><th>Rule</th><th>Outcome</th><th>Triggered</th></tr></thead><tbody><tr><td>Active judgements</td><td>Decline</td><td>14</td></tr><tr><td>DTI exceeds maximum</td><td>Decline</td><td>17</td></tr><tr><td>Moderate credit score</td><td>Manual Review</td><td>62</td></tr><tr><td>Strong credit profile</td><td>Approve</td><td>96</td></tr></tbody></table></div>'},popia:{title:'POPIA Data Access Report',body:'<div class="report-section"><table class="report-table"><thead><tr><th>Accessed By</th><th>Record</th><th>Reason</th><th>When</th></tr></thead><tbody><tr><td>S. Dlamini</td><td>RCL-X7K29MQA</td><td>Bureau check review</td><td>11 Jun 2026, 09:14</td></tr><tr><td>System</td><td>RCL-B4R72NWP</td><td>Automated decisioning</td><td>11 Jun 2026, 09:12</td></tr></tbody></table></div><div class="info-note">Data subjects may request their records by emailing compliance@ramusfinancialsolutions.co.za.</div>'},bureau:{title:'Bureau Usage Report \u2014 June 2026',body:'<div class="report-section"><div class="kpi-row"><div class="kpi"><div class="kpi-val">310</div><div class="kpi-label">Enquiries</div></div><div class="kpi"><div class="kpi-val">310</div><div class="kpi-label">Consents</div></div><div class="kpi"><div class="kpi-val">100%</div><div class="kpi-label">Coverage</div></div></div></div><div class="report-section"><table class="report-table"><thead><tr><th>Bureau</th><th>Enquiries</th><th>Avg Response</th></tr></thead><tbody><tr><td>TransUnion</td><td>310</td><td>2.4s</td></tr></tbody></table></div>'}};
+function openReport(key){const r=REPORTS[key];if(!r)return;document.getElementById('rp-title').textContent=r.title;document.getElementById('rp-meta').textContent='Generated '+new Date().toLocaleString('en-ZA',{dateStyle:'medium',timeStyle:'short'})+' \u00b7 Ramus Financial Solutions \u00b7 NCRCP19178';document.getElementById('rp-body').innerHTML=r.body;document.getElementById('modal-report').classList.add('open');}
 </script>
 </body>
 </html>
